@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Key Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #22272e;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #2d333b;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        h1 {
+            color: #fff;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #353d47;
+            background-color: #515c6b;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;
+            color: #fff;
+        }
+        
+        input[type="text"]::placeholder {
+    color: #6c7a8c; /* Set placeholder color to white */
+}
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        button[type="submit"] {
+            background-color: #515c6b;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button[type="submit"]:hover {
+            background-color: #414954;
+        }
+
+        #result {
+            margin-top: 20px;
+            color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Skyblock Portfolio</h1>
+        <form id="accessKeyForm">
+            <label for="accessKey">Welcome trader! Enter Your Access Key to continue:</label>
+            <input type="text" id="accessKey" name="accessKey" autocomplete="off" placeholder="Type your access Key">
+
+            <button type="submit">Submit</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
+ // Add your allowed access keys here
+
+        document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const inputKey = document.getElementById("accessKey").value;
+            if (allowedKeys.includes(inputKey)) {
+                window.location.href = "user/" + inputKey + ".html";
+            } else {
+                document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
+            }
+        });
+    </script>
+</body>
+</html>
