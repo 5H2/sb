@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
+    <title>❀ Username | Skyblock Seniors</title>
+    <style>
+        body {
+            background-color: #22272e;
+            color: white;
+            font-family: Verdana;
+            padding: 50px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            flex-direction: column;
+        }
+        h1 {
+            font-size: 36px;
+            text-align: left;
+            font-weight: bold;
+        }
+        p {
+            font-size: 24px;
+            text-align: left;
+            margin-top: -15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome Username!</h1>
+    <p>Thank you for your purchase, good luck!</p>
+</body>
+</html>
