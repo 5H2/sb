@@ -76,6 +76,32 @@
             margin-top: 20px;
             color: #e74c3c;
         }
+        
+       
+        .btn-corner {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px; /* Adjust size of the button */
+            height: 50px; /* Adjust size of the button */
+            background-color: #515c6b;
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            overflow: hidden; /* Added to ensure the image doesn't overflow */
+        }
+
+        .btn-corner img {
+            width: 60%; /* Ensure the image fills the button */
+            height: auto; /* Maintain aspect ratio */
+        }
+
+        .btn-corner:hover {
+            background-color: #414954;
+        }
+        
     </style>
 </head>
 <body>
@@ -90,20 +116,30 @@
 
         <div id="result"></div>
     </div>
+    
+    <button class="btn-corner"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png" alt="discord"></button>
+    
+    
 
     <script>
-        const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
- // Add your allowed access keys here
+    const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
+    // Add your allowed access keys here
 
-        document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const inputKey = document.getElementById("accessKey").value;
-            if (allowedKeys.includes(inputKey)) {
-                window.location.href = "user/" + inputKey + ".html";
-            } else {
-                document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
-            }
-        });
-    </script>
+    document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const inputKey = document.getElementById("accessKey").value;
+        if (allowedKeys.includes(inputKey)) {
+            window.location.href = "user/" + inputKey + ".html";
+        } else {
+            document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
+        }
+    });
+
+    // Redirect to Discord link when the button is clicked
+    document.querySelector(".btn-corner").addEventListener("click", function() {
+        window.location.href = "https://discord.gg/gzAPnBj9YZ";
+    });
+</script>
+
 </body>
 </html>
