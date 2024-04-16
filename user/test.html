@@ -26,10 +26,179 @@
             text-align: left;
             margin-top: -15px;
         }
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+        }
+        label {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        #portfolio {
+            margin-top: 30px;
+        }
+        #portfolio h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        #portfolio ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        .portfolio-item {
+            background-color: #444;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            position: relative;
+        }
+        .remove-item {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+        .portfolio-item:hover .remove-item {
+            opacity: 1;
+        }
+        .remove-item:hover {
+            color: red;
+        }
     </style>
 </head>
 <body>
     <h1>Welcome Username!</h1>
     <p>Thank you for your purchase, good luck!</p>
+
+    <form id="purchase-form">
+        <label for="item">Item:</label>
+        <input type="text" id="item" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" required>
+        <label for="price">Price:</label>
+        <input type="number" id="price" required>
+        <button type="submit">Save to Portfolio</button>
+    </form>
+
+    <div id="portfolio">
+        <h2>Portfolio</h2>
+        <ul id="portfolio-list"></ul>
+    </div>
+
+    <div id="total-spend">Total Spend: <span id="total-spend-amount">0</span> coins</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const purchaseForm = document.getElementById("purchase-form");
+            const portfolioList = document.getElementById("portfolio-list");
+            const totalSpendAmount = document.getElementById("total-spend-amount");
+
+            // Load portfolio from localStorage on page load
+            loadPortfolio();
+
+            purchaseForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const itemInput = document.getElementById("item");
+                const quantityInput = document.getElementById("quantity");
+                const priceInput = document.getElementById("price");
+
+                const item = itemInput.value.trim();
+                const quantity = parseInt(quantityInput.value);
+                const price = parseFloat(priceInput.value);
+
+                if (isNaN(quantity) || isNaN(price) || item === "") {
+                    alert("Please fill out all fields correctly.");
+                    return;
+                }
+
+                saveToPortfolio(item, quantity, price);
+                itemInput.value = "";
+                quantityInput.value = "";
+                priceInput.value = "";
+            });
+
+            function saveToPortfolio(item, quantity, price) {
+                let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+                portfolio.push({ item, quantity, price });
+                localStorage.setItem("portfolio", JSON.stringify(portfolio));
+                displayPortfolio(portfolio);
+                updateTotalSpend(portfolio);
+            }
+
+            function loadPortfolio() {
+                const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+                displayPortfolio(portfolio);
+                updateTotalSpend(portfolio);
+            }
+
+            function displayPortfolio(portfolio) {
+                portfolioList.innerHTML = "";
+                portfolio.forEach((entry, index) => {
+                    const li = document.createElement("li");
+                    li.classList.add("portfolio-item");
+                    li.textContent = `${entry.quantity}x ${entry.item} at ${shortenNumber(entry.price)} coins each`;
+
+                    // Create remove button
+                    const removeButton = document.createElement("span");
+                    removeButton.classList.add("remove-item");
+                    removeButton.textContent = "❌";
+                    removeButton.title = "Remove item";
+                    removeButton.addEventListener("click", function () {
+                        removeItem(index);
+                    });
+
+                    li.appendChild(removeButton);
+                    portfolioList.appendChild(li);
+                });
+            }
+
+            function updateTotalSpend(portfolio) {
+                const totalSpend = portfolio.reduce((acc, entry) => acc + (entry.quantity * entry.price), 0);
+                totalSpendAmount.textContent = shortenNumber(totalSpend);
+            }
+
+            function removeItem(index) {
+                let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+                portfolio.splice(index, 1);
+                localStorage.setItem("portfolio", JSON.stringify(portfolio));
+                loadPortfolio();
+                updateTotalSpend(portfolio);
+            }
+
+            function shortenNumber(number) {
+                if (number >= 1000000000) {
+                    return (number / 1000000000).toFixed(2) + "b";
+                } else if (number >= 1000000) {
+                    return (number / 1000000).toFixed(2) + "m";
+                } else if (number >= 1000) {
+                    return (number / 1000).toFixed(2) + "k";
+                } else {
+                    return number.toFixed(2);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
