@@ -18,6 +18,7 @@
         }
 
         .container {
+            position: relative;
             background-color: #2d333b;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -48,9 +49,9 @@
             transition: border-color 0.3s ease;
             color: #fff;
         }
-        
+
         input[type="text"]::placeholder {
-            color: #6c7a8c; /* Set placeholder color to white */
+            color: #6c7a8c;
         }
 
         input[type="text"]:focus {
@@ -62,7 +63,7 @@
             background-color: #515c6b;
             color: #fff;
             border: none;
-            padding: 10px 20px;
+            padding: 0; /* Changed */
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s ease;
@@ -76,8 +77,7 @@
             margin-top: 20px;
             color: #e74c3c;
         }
-        
-       
+
         .btn-corner {
             position: absolute;
             bottom: 20px;
@@ -101,7 +101,6 @@
         .btn-corner:hover {
             background-color: #414954;
         }
-        
     </style>
 </head>
 <body>
@@ -116,32 +115,28 @@
 
         <div id="result"></div>
     </div>
-    
+
     <button class="btn-corner"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png" alt="discord"></button>
-    
-    
 
     <script>
-    fetch('keys.txt')
-    .then(response => response.text())
-    .then(keys => {
-        const allowedKeys = keys.trim().split('\n');
-        document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
-            event.preventDefault();
-            const inputKey = document.getElementById("accessKey").value;
-            if (allowedKeys.includes(inputKey)) {
-                window.location.href = "user/" + inputKey + ".html";
-            } else {
-                document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
-            }
-        });
+    const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
+    // Add your allowed access keys here
+
+    document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const inputKey = document.getElementById("accessKey").value;
+        if (allowedKeys.includes(inputKey)) {
+            window.location.href = "user/" + inputKey;
+        } else {
+            document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
+        }
     });
 
     // Redirect to Discord link when the button is clicked
     document.querySelector(".btn-corner").addEventListener("click", function() {
         window.location.href = "https://discord.gg/gzAPnBj9YZ";
     });
-    </script>
+</script>
 
 </body>
 </html>
