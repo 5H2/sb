@@ -38,7 +38,6 @@
             margin-bottom: 10px;
             color: #fff;
         }
-        
 
         input[type="text"] {
             width: calc(100% - 20px);
@@ -100,7 +99,6 @@
         }
 
         .btn-corner:hover {
-            background-color: #515c6b;
             transform: scale(1.25);
         }
 
@@ -137,6 +135,12 @@
             background-color: #414954;
         }
 
+        .gif-background {
+            background-image: none;
+            background-size: auto;
+            backdrop-filter: none;
+            transition: background-image 0.5s ease, backdrop-filter 0.5s ease;
+        }
     </style>
 </head>
 <body>
@@ -182,14 +186,22 @@
     });
 
     function toggleBackground(toggle) {
+        const body = document.body;
         if (toggle) {
-            document.body.style.backgroundImage = "url('https://pa1.aminoapps.com/7675/9ac7e4c3e797f282217e5e58e08a17c1f1e2214dr1-400-225_hq.gif')";
-            document.body.style.backgroundSize = "cover";
-            document.body.style.backdropFilter = "blur(10px)";
+            body.classList.add("gif-background");
+            // Lazy load the GIF
+            const gifImage = new Image();
+            gifImage.src = "https://pa1.aminoapps.com/7675/9ac7e4c3e797f282217e5e58e08a17c1f1e2214dr1-400-225_hq.gif";
+            gifImage.onload = function() {
+                body.style.backgroundImage = "url('" + gifImage.src + "')";
+            };
+            body.style.backgroundSize = "cover";
+            body.style.backdropFilter = "blur(10px)";
         } else {
-            document.body.style.backgroundImage = "none";
-            document.body.style.backgroundSize = "auto";
-            document.body.style.backdropFilter = "none";
+            body.classList.remove("gif-background");
+            body.style.backgroundImage = "none";
+            body.style.backgroundSize = "auto";
+            body.style.backdropFilter = "none";
         }
     }
 </script>
