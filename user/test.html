@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="images/test.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <title>❀ Username | Skyblock Seniors</title>
     <style>
         body {
@@ -36,7 +36,7 @@
             font-size: 20px;
             margin-bottom: 5px;
         }
-        input {
+        input, select {
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
@@ -58,10 +58,10 @@
             font-size: 28px;
             margin-bottom: 10px;
         }
-        #portfolio ul {
-            list-style-type: none;
-            padding: 0;
-            margin: 0;
+        #portfolio-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
         }
         .portfolio-item {
             background-color: #444;
@@ -69,16 +69,30 @@
             padding: 10px;
             border-radius: 10px;
             margin-bottom: 10px;
+            width: 300px;
             position: relative;
+        }
+        .portfolio-item img {
+            width: 300px;
+            height: 300px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+        .item-details {
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            text-align: left;
         }
         .remove-item {
             position: absolute;
-            top: 50%;
-            right: 10px;
-            transform: translateY(-50%);
+            top: 5px;
+            right: 5px;
             opacity: 0;
             transition: opacity 0.3s ease;
             cursor: pointer;
+            font-size: 20px;
+            color: #ccc;
         }
         .portfolio-item:hover .remove-item {
             opacity: 1;
@@ -93,8 +107,12 @@
     <p>Thank you for your purchase, good luck!</p>
 
     <form id="purchase-form">
-        <label for="item">Item:</label>
-        <input type="text" id="item" required>
+        <label for="item">Select Item:</label>
+        <select id="item" required>
+            <option value="">Select an item...</option>
+            <option value="SUGAR_CANE">Sugar Cane</option>
+            <!-- Add more options for other items here -->
+        </select>
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" required>
         <label for="price">Price:</label>
@@ -104,7 +122,7 @@
 
     <div id="portfolio">
         <h2>Portfolio</h2>
-        <ul id="portfolio-list"></ul>
+        <div id="portfolio-list"></div>
     </div>
 
     <div id="total-spend">Total Spend: <span id="total-spend-amount">0</span> coins</div>
@@ -156,9 +174,19 @@
             function displayPortfolio(portfolio) {
                 portfolioList.innerHTML = "";
                 portfolio.forEach((entry, index) => {
-                    const li = document.createElement("li");
-                    li.classList.add("portfolio-item");
-                    li.textContent = `${entry.quantity}x ${entry.item} at ${shortenNumber(entry.price)} coins each`;
+                    const div = document.createElement("div");
+                    div.classList.add("portfolio-item");
+
+                    // Create image
+                    const img = document.createElement("img");
+                    img.src = getImageUrl(entry.item);
+                    div.appendChild(img);
+
+                    // Create item details
+                    const details = document.createElement("div");
+                    details.classList.add("item-details");
+                    details.innerHTML = `<strong>${getDisplayName(entry.item)}</strong><br>Bought ${shortenNumber(entry.quantity)} at ${shortenNumber(entry.price)} coins each`;
+                    div.appendChild(details);
 
                     // Create remove button
                     const removeButton = document.createElement("span");
@@ -168,9 +196,9 @@
                     removeButton.addEventListener("click", function () {
                         removeItem(index);
                     });
+                    div.appendChild(removeButton);
 
-                    li.appendChild(removeButton);
-                    portfolioList.appendChild(li);
+                    portfolioList.appendChild(div);
                 });
             }
 
@@ -197,6 +225,24 @@
                 } else {
                     return number.toFixed(2);
                 }
+            }
+
+            function getImageUrl(item) {
+                // Define image URLs for each item
+                const itemImages = {
+                    SUGAR_CANE: "images/SUGAR_CANE.PNG"
+                    // Add more item images here
+                };
+                return itemImages[item] || ""; // Return the image URL based on the item
+            }
+
+            function getDisplayName(item) {
+                // Define display names for each item
+                const itemDisplayNames = {
+                    SUGAR_CANE: "Sugar Cane"
+                    // Add more item display names here
+                };
+                return itemDisplayNames[item] || item; // Return the display name based on the item
             }
         });
     </script>
