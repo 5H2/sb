@@ -48,10 +48,10 @@
             transition: border-color 0.3s ease;
             color: #fff;
         }
-        
+
         input[type="text"]::placeholder {
-    color: #6c7a8c; /* Set placeholder color to white */
-}
+            color: #6c7a8c; /* Set placeholder color to white */
+        }
 
         input[type="text"]:focus {
             outline: none;
@@ -76,8 +76,7 @@
             margin-top: 20px;
             color: #e74c3c;
         }
-        
-       
+
         .btn-corner {
             position: absolute;
             bottom: 20px;
@@ -101,47 +100,94 @@
         .btn-corner:hover {
             background-color: #414954;
         }
-        
+
+        .btn-flower {
+            position: absolute;
+            bottom: 20px;
+            right: 80px; /* Adjust the position to align with Discord button */
+            width: 50px; /* Adjust size of the button */
+            height: 50px; /* Adjust size of the button */
+            background-color: #515c6b;
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            overflow: hidden; /* Added to ensure the image doesn't overflow */
+        }
+
+        .btn-flower::after {
+            content: "✿"; /* Unicode character for flower */
+            font-size: 24px; /* Adjust the size of the flower */
+            color: #fff; /* Color of the flower */
+            display: block;
+            text-align: center;
+            line-height: 50px; /* Center vertically */
+        }
+
+        .btn-flower:hover {
+            background-color: #414954;
+        }
+
+        .active {
+            background-color: #414954;
+        }
+
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Skyblock Portfolio</h1>
-        <form id="accessKeyForm">
-            <label for="accessKey">Welcome trader! Enter Your Access Key to continue:</label>
-            <input type="text" id="accessKey" name="accessKey" autocomplete="off" placeholder="Type your access Key">
+<div class="container">
+    <h1>Skyblock Portfolio</h1>
+    <form id="accessKeyForm">
+        <label for="accessKey">Welcome trader! Enter Your Access Key to continue:</label>
+        <input type="text" id="accessKey" name="accessKey" autocomplete="off" placeholder="Type your access Key">
 
-            <button type="submit">Submit</button>
-        </form>
+        <button type="submit">Submit</button>
+    </form>
 
-        <div id="result"></div>
-    </div>
-    
-    <button class="btn-corner"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png" alt="discord"></button>
-    
-    
+    <div id="result"></div>
+</div>
 
-    <script>
-    const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
-    // Add your allowed access keys here
+<button class="btn-corner"><img src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6cc3c481a15a141738_icon_clyde_white_RGB.png" alt="discord"></button>
 
-    document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
+<button class="btn-flower" id="flowerButton"></button>
+
+
+<script>
+    document.getElementById("accessKeyForm").addEventListener("submit", function (event) {
         event.preventDefault();
         const inputKey = document.getElementById("accessKey").value;
         console.log("Input Key:", inputKey); // Log input key for debugging
-        if (allowedKeys.includes(inputKey)) {
-            const redirectURL = "user/" + inputKey;
-            console.log("Redirect URL:", redirectURL); // Log redirection URL for debugging
-            window.location.href = redirectURL;
-        } else {
-            document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
-        }
+        const redirectURL = "user/" + inputKey;
+        console.log("Redirect URL:", redirectURL); // Log redirection URL for debugging
+        window.location.href = redirectURL;
     });
 
-    // Redirect to Discord link when the button is clicked
-    document.querySelector(".btn-corner").addEventListener("click", function() {
-        window.location.href = "https://discord.gg/gzAPnBj9YZ";
+    let isBackgroundToggled = localStorage.getItem("isBackgroundToggled") === "true";
+    const flowerButton = document.getElementById("flowerButton");
+    if (isBackgroundToggled) {
+        flowerButton.classList.add("active");
+        toggleBackground(true);
+    }
+
+    flowerButton.addEventListener("click", function () {
+        isBackgroundToggled = !isBackgroundToggled;
+        flowerButton.classList.toggle("active");
+        toggleBackground(isBackgroundToggled);
+        localStorage.setItem("isBackgroundToggled", isBackgroundToggled);
     });
+
+    function toggleBackground(toggle) {
+        if (toggle) {
+            document.body.style.backgroundImage = "url('https://pa1.aminoapps.com/7675/9ac7e4c3e797f282217e5e58e08a17c1f1e2214dr1-400-225_hq.gif')";
+            document.body.style.backgroundSize = "cover";
+            document.body.style.backdropFilter = "blur(10px)";
+        } else {
+            document.body.style.backgroundImage = "none";
+            document.body.style.backgroundSize = "auto";
+            document.body.style.backdropFilter = "none";
+        }
+    }
 </script>
 
 </body>
