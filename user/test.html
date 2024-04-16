@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="images/test.ico">
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <title>❀ Username | Skyblock Seniors</title>
     <style>
         body {
@@ -20,11 +20,18 @@
             font-size: 36px;
             text-align: left;
             font-weight: bold;
-        }f
+        }
         p {
             font-size: 24px;
             text-align: left;
             margin-top: -15px;
+        }
+        #header {
+            background-color: #1c1f24;
+            padding: 10px 20px;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
         form {
             margin-top: 20px;
@@ -73,14 +80,18 @@
             position: relative;
         }
         .portfolio-item img {
-            width: 200px;
-            height: 200px;
-            border-radius: 5px;
-            object-fit: cover;
-        }
+        margin-top: 20px;
+ 	    width: 200px;
+ 	    height: 200px;
+  	    border-radius: 5px;
+   		object-fit: cover;
+     	display: block; /* Added to center the image */
+ 	    margin: 0 auto; /* Added to center the image */
+		}
+
         .item-details {
             padding: 10px;
-            margin-top: 10px;
+            margin-top: 20px;
             font-size: 16px;
             text-align: left;
         }
@@ -103,6 +114,10 @@
     </style>
 </head>
 <body>
+    <div id="header">
+        Skyblock Seniors
+    </div>
+
     <h1>Welcome Username!</h1>
     <p>Thank you for your purchase, good luck!</p>
 
@@ -230,7 +245,7 @@
             function getImageUrl(item) {
                 // Define image URLs for each item
                 const itemImages = {
-                    SUGAR_CANE: "images/SUGAR_CANE.png"
+                    SUGAR_CANE: "images/SUGAR_CANE.PNG"
                     // Add more item images here
                 };
                 return itemImages[item] || ""; // Return the image URL based on the item
