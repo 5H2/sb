@@ -128,8 +128,11 @@
     document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
         event.preventDefault();
         const inputKey = document.getElementById("accessKey").value;
+        console.log("Input Key:", inputKey); // Log input key for debugging
         if (allowedKeys.includes(inputKey)) {
-            window.location.href = "user/" + inputKey;
+            const redirectURL = "user/" + inputKey;
+            console.log("Redirect URL:", redirectURL); // Log redirection URL for debugging
+            window.location.href = redirectURL;
         } else {
             document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
         }
