@@ -145,8 +145,6 @@
         <label for="item">Select Item:</label>
         <select id="item" required>
             <option value="">Select an item...</option>
-            <option value="SUGAR_CANE">Sugar Cane</option>
-            <!-- Add more options for other items here -->
         </select>
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" required>
@@ -228,16 +226,30 @@
             }
 
             function getImageUrl(item) {
-                const itemImages = {
-                    SUGAR_CANE: "images/SUGAR_CANE.png"
-                };
+                // Here, itemImages.txt is the file containing item images.
+                // Each line should be in the format: "identifier:image_url"
+                const itemImages = {};
+                const lines = `ITEMS_DATA_HERE`;
+                lines.split("\n").forEach(line => {
+                    const parts = line.split(":");
+                    if (parts.length === 2) {
+                        itemImages[parts[0].trim()] = parts[1].trim();
+                    }
+                });
                 return itemImages[item] || "";
             }
 
             function getDisplayName(item) {
-                const itemDisplayNames = {
-                    SUGAR_CANE: "Sugar Cane"
-                };
+                // Here, itemNames.txt is the file containing item names.
+                // Each line should be in the format: "identifier:display_name"
+                const itemDisplayNames = {};
+                const lines = `ITEMS_DATA_HERE`;
+                lines.split("\n").forEach(line => {
+                    const parts = line.split(":");
+                    if (parts.length === 2) {
+                        itemDisplayNames[parts[0].trim()] = parts[1].trim();
+                    }
+                });
                 return itemDisplayNames[item] || item;
             }
 
