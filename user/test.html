@@ -80,18 +80,16 @@
             position: relative;
         }
         .portfolio-item img {
-        margin-top: 20px;
- 	    width: 200px;
- 	    height: 200px;
-  	    border-radius: 5px;
-   		object-fit: cover;
-     	display: block; /* Added to center the image */
- 	    margin: 0 auto; /* Added to center the image */
-		}
-
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            display: block;
+            margin: 0 auto;
+        }
         .item-details {
             padding: 10px;
-            margin-top: 20px;
+            margin-top: 10px;
             font-size: 16px;
             text-align: left;
         }
@@ -111,6 +109,24 @@
         .remove-item:hover {
             color: red;
         }
+        #add-item-container {
+            width: 300px;
+            height: 200px;
+            border: 2px dashed #007bff;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        #add-item-container:hover {
+            background-color: rgba(0, 123, 255, 0.1);
+        }
+        .add-item-text {
+            font-size: 36px;
+            color: #007bff;
+        }
     </style>
 </head>
 <body>
@@ -121,7 +137,11 @@
     <h1>Welcome Username!</h1>
     <p>Thank you for your purchase, good luck!</p>
 
-    <form id="purchase-form">
+    <div id="add-item-container">
+        <div class="add-item-text">+</div>
+    </div>
+
+    <form id="purchase-form" style="display: none;">
         <label for="item">Select Item:</label>
         <select id="item" required>
             <option value="">Select an item...</option>
@@ -144,47 +164,15 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
+            const addItemContainer = document.getElementById("add-item-container");
             const purchaseForm = document.getElementById("purchase-form");
-            const portfolioList = document.getElementById("portfolio-list");
-            const totalSpendAmount = document.getElementById("total-spend-amount");
 
-            // Load portfolio from localStorage on page load
-            loadPortfolio();
-
-            purchaseForm.addEventListener("submit", function (event) {
-                event.preventDefault();
-                const itemInput = document.getElementById("item");
-                const quantityInput = document.getElementById("quantity");
-                const priceInput = document.getElementById("price");
-
-                const item = itemInput.value.trim();
-                const quantity = parseInt(quantityInput.value);
-                const price = parseFloat(priceInput.value);
-
-                if (isNaN(quantity) || isNaN(price) || item === "") {
-                    alert("Please fill out all fields correctly.");
-                    return;
-                }
-
-                saveToPortfolio(item, quantity, price);
-                itemInput.value = "";
-                quantityInput.value = "";
-                priceInput.value = "";
+            addItemContainer.addEventListener("click", function () {
+                purchaseForm.style.display = "block";
             });
 
-            function saveToPortfolio(item, quantity, price) {
-                let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
-                portfolio.push({ item, quantity, price });
-                localStorage.setItem("portfolio", JSON.stringify(portfolio));
-                displayPortfolio(portfolio);
-                updateTotalSpend(portfolio);
-            }
-
-            function loadPortfolio() {
-                const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
-                displayPortfolio(portfolio);
-                updateTotalSpend(portfolio);
-            }
+            const portfolioList = document.getElementById("portfolio-list");
+            const totalSpendAmount = document.getElementById("total-spend-amount");
 
             function displayPortfolio(portfolio) {
                 portfolioList.innerHTML = "";
@@ -192,18 +180,15 @@
                     const div = document.createElement("div");
                     div.classList.add("portfolio-item");
 
-                    // Create image
                     const img = document.createElement("img");
                     img.src = getImageUrl(entry.item);
                     div.appendChild(img);
 
-                    // Create item details
                     const details = document.createElement("div");
                     details.classList.add("item-details");
-                    details.innerHTML = `<strong>${getDisplayName(entry.item)}</strong><br>Bought ${shortenNumber(entry.quantity)} at ${shortenNumber(entry.price)} coins each`;
+                    details.innerHTML = `<strong>${getDisplayName(entry.item)}</strong><br>Bought ${shortenNumber(entry.quantity)} at ${shortenNumber(entry.price)} coins each (Total: ${shortenNumber(entry.quantity * entry.price)} Coins)`;
                     div.appendChild(details);
 
-                    // Create remove button
                     const removeButton = document.createElement("span");
                     removeButton.classList.add("remove-item");
                     removeButton.textContent = "❌";
@@ -243,21 +228,54 @@
             }
 
             function getImageUrl(item) {
-                // Define image URLs for each item
                 const itemImages = {
                     SUGAR_CANE: "images/SUGAR_CANE.png"
-                    // Add more item images here
                 };
-                return itemImages[item] || ""; // Return the image URL based on the item
+                return itemImages[item] || "";
             }
 
             function getDisplayName(item) {
-                // Define display names for each item
                 const itemDisplayNames = {
                     SUGAR_CANE: "Sugar Cane"
-                    // Add more item display names here
                 };
-                return itemDisplayNames[item] || item; // Return the display name based on the item
+                return itemDisplayNames[item] || item;
+            }
+
+            function loadPortfolio() {
+                const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+                displayPortfolio(portfolio);
+                updateTotalSpend(portfolio);
+            }
+
+            loadPortfolio();
+
+            purchaseForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const itemInput = document.getElementById("item");
+                const quantityInput = document.getElementById("quantity");
+                const priceInput = document.getElementById("price");
+
+                const item = itemInput.value.trim();
+                const quantity = parseInt(quantityInput.value);
+                const price = parseFloat(priceInput.value);
+
+                if (isNaN(quantity) || isNaN(price) || item === "") {
+                    alert("Please fill out all fields correctly.");
+                    return;
+                }
+
+                saveToPortfolio(item, quantity, price);
+                itemInput.value = "";
+                quantityInput.value = "";
+                priceInput.value = "";
+            });
+
+            function saveToPortfolio(item, quantity, price) {
+                let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
+                portfolio.push({ item, quantity, price });
+                localStorage.setItem("portfolio", JSON.stringify(portfolio));
+                displayPortfolio(portfolio);
+                updateTotalSpend(portfolio);
             }
         });
     </script>
