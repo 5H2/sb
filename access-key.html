@@ -50,8 +50,8 @@
         }
         
         input[type="text"]::placeholder {
-    color: #6c7a8c; /* Set placeholder color to white */
-}
+            color: #6c7a8c; /* Set placeholder color to white */
+        }
 
         input[type="text"]:focus {
             outline: none;
@@ -122,24 +122,26 @@
     
 
     <script>
-    const allowedKeys = ["3Fb8R6z2Q", "P7nE9G2rD", "a4T6pV9Kc", "J5mR8Xq0W", "L2sE7jN9Y", "1Kl3D5h8S", "Z9xV2cR4F", "H6fA1wV3Q", "C8mB2nV6J", "R4zG7sF9W"];
-    // Add your allowed access keys here
-
-    document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
-        event.preventDefault();
-        const inputKey = document.getElementById("accessKey").value;
-        if (allowedKeys.includes(inputKey)) {
-            window.location.href = "user/" + inputKey + ".html";
-        } else {
-            document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
-        }
+    fetch('keys.txt')
+    .then(response => response.text())
+    .then(keys => {
+        const allowedKeys = keys.trim().split('\n');
+        document.getElementById("accessKeyForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const inputKey = document.getElementById("accessKey").value;
+            if (allowedKeys.includes(inputKey)) {
+                window.location.href = "user/" + inputKey + ".html";
+            } else {
+                document.getElementById("result").innerText = "That key does not exist. Would you like to purchase a key?";
+            }
+        });
     });
 
     // Redirect to Discord link when the button is clicked
     document.querySelector(".btn-corner").addEventListener("click", function() {
         window.location.href = "https://discord.gg/gzAPnBj9YZ";
     });
-</script>
+    </script>
 
 </body>
 </html>
