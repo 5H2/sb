@@ -367,21 +367,22 @@
         }
 
         function getImageUrl(item) {
+            const imageUrlPrefix = '../images/';
             const itemImages = {
-                CORRUPTED_BAIT: "images/CORRUPTED_BAIT.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "images/ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2.png",
-                TARANTULA_WEB: "images/TARANTULA_WEB.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "images/ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1.png",
-                DUNGEON_TRAP: "images/DUNGEON_TRAP.png",
-                DARK_ORB: "images/DARK_ORB.png",
-                ARCHITECT_FIRST_DRAFT: "images/ARCHITECT_FIRST_DRAFT.png",
-                ENCHANTMENT_PROTECTION_7: "images/ENCHANTMENT_PROTECTION_7.png",
-                ENCHANTMENT_PROTECTION_6: "images/ENCHANTMENT_PROTECTION_6.png",
-                RITUAL_RESIDUE: "images/RITUAL_RESIDUE.png",
-                ESSENCE_DRAGON: "images/ESSENCE_DRAGON.png",
-                RECOMBOBULATOR_3000: "images/RECOMBOBULATOR_3000.png"
+                CORRUPTED_BAIT: "CORRUPTED_BAIT.png",
+                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2.png",
+                TARANTULA_WEB: "TARANTULA_WEB.png",
+                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1.png",
+                DUNGEON_TRAP: "DUNGEON_TRAP.png",
+                DARK_ORB: "DARK_ORB.png",
+                ARCHITECT_FIRST_DRAFT: "ARCHITECT_FIRST_DRAFT.png",
+                ENCHANTMENT_PROTECTION_7: "ENCHANTMENT_PROTECTION_7.png",
+                ENCHANTMENT_PROTECTION_6: "ENCHANTMENT_PROTECTION_6.png",
+                RITUAL_RESIDUE: "RITUAL_RESIDUE.png",
+                ESSENCE_DRAGON: "ESSENCE_DRAGON.png",
+                RECOMBOBULATOR_3000: "RECOMBOBULATOR_3000.png"
             };
-            return itemImages[item] || "";
+            return imageUrlPrefix + itemImages[item] || "";
         }
 
         function getDisplayName(item) {
