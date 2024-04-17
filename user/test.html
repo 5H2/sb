@@ -173,6 +173,9 @@
         #total-spend { /* New CSS for Total Spend */
             margin-top: 20px;
         }
+        #total-investments { /* New CSS for Total Investments */
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -205,6 +208,10 @@
         <div id="portfolio-list"></div>
     </div>
 
+    <div id="total-investments">
+        Total Investments: <span id="total-investments-amount">0</span> in <span id="unique-items">0</span> unique items
+    </div>
+
     <div id="total-spend">
         Total Assets: <span id="total-spend-amount">0</span> coins
     </div>
@@ -213,6 +220,8 @@
         document.addEventListener("DOMContentLoaded", function () {
             const portfolioList = document.getElementById("portfolio-list");
             const totalSpendAmount = document.getElementById("total-spend-amount");
+            const totalInvestmentsAmount = document.getElementById("total-investments-amount");
+            const uniqueItems = document.getElementById("unique-items");
 
             function displayPortfolio(portfolio) {
                 portfolioList.innerHTML = "";
@@ -247,18 +256,27 @@
                 totalSpendAmount.textContent = totalSpend;
             }
 
+            function updateTotalInvestments(portfolio) {
+                const totalInvestments = portfolio.reduce((acc, entry) => acc + parseInt(entry.quantity), 0);
+                totalInvestmentsAmount.textContent = totalInvestments;
+                const uniqueItemIds = new Set(portfolio.map(entry => entry.item));
+                uniqueItems.textContent = uniqueItemIds.size;
+            }
+
             function removeItem(index) {
                 let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
                 portfolio.splice(index, 1);
                 localStorage.setItem("portfolio", JSON.stringify(portfolio));
                 loadPortfolio();
                 updateTotalSpend(portfolio);
+                updateTotalInvestments(portfolio);
             }
 
             function loadPortfolio() {
                 const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
                 displayPortfolio(portfolio);
                 updateTotalSpend(portfolio);
+                updateTotalInvestments(portfolio);
             }
 
             loadPortfolio();
@@ -284,17 +302,8 @@
             const suggestions = document.getElementById("suggestions");
             suggestions.innerHTML = "";
             const items = {
-                CORRUPTED_BAIT: "Corrupted Bait",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "Enchantment Ultimate No Pain No Gain 2",
-                TARANTULA_WEB: "Tarantula Web",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "Enchantment Ultimate No Pain No Gain 1",
-                DUNGEON_TRAP: "Dungeon Trap",
-                DARK_ORB: "Dark Orb",
-                ARCHITECT_FIRST_DRAFT: "Architect First Draft",
-                ENCHANTMENT_PROTECTION_7: "Enchantment Protection 7",
-                ENCHANTMENT_PROTECTION_6: "Enchantment Protection 6",
-                RITUAL_RESIDUE: "Ritual Residue",
-                ESSENCE_DRAGON: "Dragon Essence",
+                BOOSTER_COOKIE: "Booster Cookie",
+                STOCK_OF_STONKS: "Stock of Stonks",
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
             let count = 0; // Counter for limiting suggestions
@@ -349,19 +358,10 @@
         }
 
         function getImageUrl(item) {
-            const imageUrlPrefix = 'itemimages/';
+            const imageUrlPrefix = '';
             const itemImages = {
-                CORRUPTED_BAIT: "CORRUPTED_BAIT.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2.png",
-                TARANTULA_WEB: "TARANTULA_WEB.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1.png",
-                DUNGEON_TRAP: "DUNGEON_TRAP.png",
-                DARK_ORB: "DARK_ORB.png",
-                ARCHITECT_FIRST_DRAFT: "ARCHITECT_FIRST_DRAFT.png",
-                ENCHANTMENT_PROTECTION_7: "ENCHANTMENT_PROTECTION_7.png",
-                ENCHANTMENT_PROTECTION_6: "ENCHANTMENT_PROTECTION_6.png",
-                RITUAL_RESIDUE: "RITUAL_RESIDUE.png",
-                ESSENCE_DRAGON: "ESSENCE_DRAGON.png",
+                BOOSTER_COOKIE: "BOOSTER_COOKIE.png",
+                STOCK_OF_STONKS: "STOCK_OF_STONKS.png",
                 RECOMBOBULATOR_3000: "RECOMBOBULATOR_3000.png"
             };
             return imageUrlPrefix + itemImages[item] || "";
@@ -369,17 +369,8 @@
 
         function getDisplayName(item) {
             const itemNames = {
-                CORRUPTED_BAIT: "Corrupted Bait",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "Enchantment Ultimate No Pain No Gain 2",
-                TARANTULA_WEB: "Tarantula Web",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "Enchantment Ultimate No Pain No Gain 1",
-                DUNGEON_TRAP: "Dungeon Trap",
-                DARK_ORB: "Dark Orb",
-                ARCHITECT_FIRST_DRAFT: "Architect First Draft",
-                ENCHANTMENT_PROTECTION_7: "Enchantment Protection 7",
-                ENCHANTMENT_PROTECTION_6: "Enchantment Protection 6",
-                RITUAL_RESIDUE: "Ritual Residue",
-                ESSENCE_DRAGON: "Dragon Essence",
+                BOOSTER_COOKIE: "Booster Cookie",
+                STOCK_OF_STONKS: "Stock of Stonks",
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
             return itemNames[item] || "";
