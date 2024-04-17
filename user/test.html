@@ -208,10 +208,6 @@
         <div id="portfolio-list"></div>
     </div>
 
-    <div id="total-investments">
-        Total Investments: <span id="total-investments-amount">0</span> in <span id="unique-items">0</span> unique items
-    </div>
-
     <div id="total-spend">
         Total Assets: <span id="total-spend-amount">0</span> coins
     </div>
@@ -253,12 +249,12 @@
 
             function updateTotalSpend(portfolio) {
                 const totalSpend = portfolio.reduce((acc, entry) => acc + (entry.quantity * entry.price), 0);
-                totalSpendAmount.textContent = totalSpend;
+                totalSpendAmount.textContent = shortenNumber(totalSpend);
             }
 
             function updateTotalInvestments(portfolio) {
                 const totalInvestments = portfolio.reduce((acc, entry) => acc + parseInt(entry.quantity), 0);
-                totalInvestmentsAmount.textContent = totalInvestments;
+                totalInvestmentsAmount.textContent = shortenNumber(totalInvestments);
                 const uniqueItemIds = new Set(portfolio.map(entry => entry.item));
                 uniqueItems.textContent = uniqueItemIds.size;
             }
@@ -342,7 +338,7 @@
             div.appendChild(img);
             const details = document.createElement("div");
             details.classList.add("item-details");
-            details.innerHTML = `<strong>${getDisplayName(selectedItem)}</strong><br>Bought ${quantity} at ${price} coins each (Total: ${quantity * price} Coins)`;
+            details.innerHTML = `<strong>${getDisplayName(selectedItem)}</strong><br>Bought ${quantity} at ${price} coins each (Total: ${shortenNumber(quantity * price)} Coins)`;
             div.appendChild(details);
             const removeButton = document.createElement("span");
             removeButton.classList.add("remove-item");
@@ -353,7 +349,7 @@
             });
             div.appendChild(removeButton);
             portfolioList.appendChild(div);
-            document.getElementById("total-spend-amount").textContent = parseInt(document.getElementById("total-spend-amount").textContent) + (quantity * price);
+            document.getElementById("total-spend-amount").textContent = shortenNumber(parseInt(document.getElementById("total-spend-amount").textContent) + (quantity * price));
             closePopup();
         }
 
@@ -374,6 +370,20 @@
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
             return itemNames[item] || "";
+        }
+
+        function shortenNumber(num) {
+            const absNum = Math.abs(num);
+            const shortNum = (absNum >= 1e12)
+                ? (absNum / 1e12).toFixed(1) + 't'
+                : (absNum >= 1e9)
+                    ? (absNum / 1e9).toFixed(1) + 'b'
+                    : (absNum >= 1e6)
+                        ? (absNum / 1e6).toFixed(1) + 'm'
+                        : (absNum >= 1e3)
+                            ? (absNum / 1e3).toFixed(1) + 'k'
+                            : absNum;
+            return (num < 0 ? '-' : '') + shortNum;
         }
     </script>
 </body>
