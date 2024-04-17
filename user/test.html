@@ -146,7 +146,8 @@
         <select id="item" required>
             <option value="">Select an item...</option>
             <option value="SUGAR_CANE">Sugar Cane</option>
-            <!-- Add more options for other items here -->
+            <option value="RECOMBOBULATOR_3000">Recombobulator 3000</option>
+            <option value="STOCK_OF_STONKS">Stock of Stonks</option>
         </select>
         <label for="quantity">Quantity:</label>
         <input type="number" id="quantity" required>
@@ -229,14 +230,18 @@
 
             function getImageUrl(item) {
                 const itemImages = {
-                    SUGAR_CANE: "images/SUGAR_CANE.png"
+                    SUGAR_CANE: "images/SUGAR_CANE.png",
+                    RECOMBOBULATOR_3000: "images/RECOMBOBULATOR_3000.png",
+                    STOCK_OF_STONKS: "images/STOCK_OF_STONKS.png"
                 };
                 return itemImages[item] || "";
             }
 
             function getDisplayName(item) {
                 const itemDisplayNames = {
-                    SUGAR_CANE: "Sugar Cane"
+                    SUGAR_CANE: "Sugar Cane",
+                    RECOMBOBULATOR_3000: "Recombobulator 3000",
+                    STOCK_OF_STONKS: "Stock of Stonks"
                 };
                 return itemDisplayNames[item] || item;
             }
