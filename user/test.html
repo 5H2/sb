@@ -71,9 +71,16 @@
         .search-suggestions li {
             padding: 5px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
         }
         .search-suggestions li:hover {
             background-color: #555;
+        }
+        .search-suggestions li img {
+            width: 30px; /* Adjust as needed */
+            height: 30px; /* Adjust as needed */
+            margin-right: 10px;
         }
         input[type="text"], input[type="number"] {
             padding: 10px;
@@ -288,7 +295,12 @@
             Object.entries(items).forEach(([id, item]) => {
                 if (item.toLowerCase().includes(search)) {
                     const li = document.createElement("li");
-                    li.textContent = item;
+                    const img = document.createElement("img");
+                    img.src = getImageUrl(id); // Use item ID to get image URL
+                    li.appendChild(img);
+                    const span = document.createElement("span");
+                    span.textContent = item;
+                    li.appendChild(span);
                     li.onclick = function() {
                         document.getElementById("search").value = item;
                         selectedItem = id;
