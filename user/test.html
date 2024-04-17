@@ -170,6 +170,12 @@
             font-size: 36px;
             color: #007bff;
         }
+        #total-spend { /* New CSS for Total Spend */
+            margin-top: 20px;
+        }
+        #total-investments { /* New CSS for Total Investments */
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -202,12 +208,20 @@
         <div id="portfolio-list"></div>
     </div>
 
-    <div id="total-spend">Total Spend: <span id="total-spend-amount">0</span> coins</div>
+    <div id="total-investments">
+        Total Investments: <span id="total-investments-amount">0</span> in <span id="unique-items">0</span> unique items
+    </div>
+
+    <div id="total-spend">
+        Total Assets: <span id="total-spend-amount">0</span> coins
+    </div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const portfolioList = document.getElementById("portfolio-list");
             const totalSpendAmount = document.getElementById("total-spend-amount");
+            const totalInvestmentsAmount = document.getElementById("total-investments-amount");
+            const uniqueItems = document.getElementById("unique-items");
 
             function displayPortfolio(portfolio) {
                 portfolioList.innerHTML = "";
@@ -242,18 +256,27 @@
                 totalSpendAmount.textContent = totalSpend;
             }
 
+            function updateTotalInvestments(portfolio) {
+                const totalInvestments = portfolio.reduce((acc, entry) => acc + entry.quantity, 0);
+                totalInvestmentsAmount.textContent = totalInvestments;
+                const uniqueItemIds = new Set(portfolio.map(entry => entry.item));
+                uniqueItems.textContent = uniqueItemIds.size;
+            }
+
             function removeItem(index) {
                 let portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
                 portfolio.splice(index, 1);
                 localStorage.setItem("portfolio", JSON.stringify(portfolio));
                 loadPortfolio();
                 updateTotalSpend(portfolio);
+                updateTotalInvestments(portfolio);
             }
 
             function loadPortfolio() {
                 const portfolio = JSON.parse(localStorage.getItem("portfolio")) || [];
                 displayPortfolio(portfolio);
                 updateTotalSpend(portfolio);
+                updateTotalInvestments(portfolio);
             }
 
             loadPortfolio();
@@ -292,8 +315,9 @@
                 ESSENCE_DRAGON: "Dragon Essence",
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
+            let count = 0; // Counter for limiting suggestions
             Object.entries(items).forEach(([id, item]) => {
-                if (item.toLowerCase().includes(search)) {
+                if (count < 5 && item.toLowerCase().includes(search)) {
                     const li = document.createElement("li");
                     const img = document.createElement("img");
                     img.src = getImageUrl(id); // Use item ID to get image URL
@@ -307,6 +331,7 @@
                         suggestions.innerHTML = "";
                     };
                     suggestions.appendChild(li);
+                    count++;
                 }
             });
         }
@@ -354,7 +379,7 @@
                 ENCHANTMENT_PROTECTION_6: "images/ENCHANTMENT_PROTECTION_6.png",
                 RITUAL_RESIDUE: "images/RITUAL_RESIDUE.png",
                 ESSENCE_DRAGON: "images/ESSENCE_DRAGON.png",
-                RECOMBOBULATOR_3000: "images/RECOMBOBULATOR_3000"
+                RECOMBOBULATOR_3000: "images/RECOMBOBULATOR_3000.png"
             };
             return itemImages[item] || "";
         }
