@@ -1,2 +1,0 @@
-SUGAR_CANE:Sugar Cane
-STOCK_OF_STONKS:Stock of Stonks
