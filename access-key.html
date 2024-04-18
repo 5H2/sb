@@ -131,6 +131,7 @@
             transform: scale(1.25);
         }
 
+
         .active {
             background-color: #414954;
         }
@@ -141,6 +142,26 @@
             backdrop-filter: none;
             transition: background-image 0.5s ease, backdrop-filter 0.5s ease;
         }
+        
+                .btn-coinflip {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            width: 50px; /* Adjust size of the button */
+            height: 50px; /* Adjust size of the button */
+            background-color: #414954;
+            border: none;
+            padding: 0;
+            border-radius: 5px;
+            cursor: pointer;
+            overflow: hidden; /* Added to ensure the image doesn't overflow */
+            transition: .2s ease;
+            font-size: 24px;
+        }
+
+        .btn-coinflip:hover {
+            transform: scale(1.25);
+        }
     </style>
 </head>
 <body>
@@ -149,10 +170,8 @@
     <form id="accessKeyForm">
         <label for="accessKey">Welcome trader! Enter Your Access Key to continue:</label>
         <input type="text" id="accessKey" name="accessKey" autocomplete="off" placeholder="Type your access Key">
-
         <button type="submit">Submit</button>
     </form>
-
     <div id="result"></div>
 </div>
 
@@ -160,6 +179,8 @@
 
 <button class="btn-flower" id="flowerButton"></button>
 
+<!-- New button for coinflip -->
+<button class="btn-coinflip" id="coinflipButton">🎰</button>
 
 <script>
     document.getElementById("accessKeyForm").addEventListener("submit", function (event) {
@@ -169,6 +190,11 @@
         const redirectURL = "user/" + inputKey;
         console.log("Redirect URL:", redirectURL); // Log redirection URL for debugging
         window.location.href = redirectURL;
+    });
+    
+        document.getElementById("coinflipButton").addEventListener("click", function () {
+        // Redirect to coinflip.html
+        window.location.href = "coinflip.html";
     });
 
     let isBackgroundToggled = localStorage.getItem("isBackgroundToggled") === "true";
@@ -184,6 +210,7 @@
         toggleBackground(isBackgroundToggled);
         localStorage.setItem("isBackgroundToggled", isBackgroundToggled);
     });
+
 
     function toggleBackground(toggle) {
         const body = document.body;
