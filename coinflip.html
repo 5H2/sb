@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coinflip</title>
   <style>
@@ -33,9 +34,9 @@
       content: '';
       width: 32px;
       height: 32px;
-      background: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Long_red_right-pointing_triangle.png') no-repeat; /* Arrow pointing right */
+      background: url('https://upload.wikimedia.org/wikipedia/commons/e/e2/Long_red_right-pointing_triangle.png') no-repeat;
       background-size: 32px;
-      left: -25px; /* Adjusted position */
+      left: -25px;
       top: 50%;
       transform: translateY(-50%);
     }
@@ -134,11 +135,9 @@
     }
     @keyframes animateArrow{
       50%{
-        left: -40px; /* Adjusted animation */
+        left: -40px;
       }
     }
-
-    /* Updated styles for the button */
     .access-button {
       position: absolute;
       top: 10px;
@@ -161,7 +160,6 @@
 </head>
 <body>
 
-  <!-- New button for access -->
   <a href="access-key.html" class="access-button">←</a>
 
   <div id="mainbox" class="mainbox">
@@ -180,26 +178,25 @@
       </div>
     </div>
 
-    <!-- Your existing button -->
     <button class="spin" onclick="spinWheel()">SPIN</button>
   </div>
 
 <script>
 document.addEventListener("keydown", function(event) {
   if (event.key === "~") {
-    spinWheel(true); // Pass true to indicate that "~" was pressed
+    spinWheel(true);
   }
 });
 
 function spinWheel(isKeyPressed){
-  var x = 1024; //min value
-  var y = 9999; // max value
-
   var deg;
+
   if (isKeyPressed) {
-    // If "~" was pressed, force the wheel to land on heads (approximately 90 degrees)
-    deg = 90;
+    var options = [90, 180, 143];
+    deg = options[Math.floor(Math.random() * options.length)];
   } else {
+    var x = 9999;
+    var y = 15999;
     deg = Math.floor(Math.random() * (x - y)) + y;
   }
 
@@ -209,7 +206,7 @@ function spinWheel(isKeyPressed){
   element.classList.remove('animate');
   setTimeout(function(){
     element.classList.add('animate');
-  }, 5000); //5000 = 5 second
+  }, 15000);
 }
 </script>
 </body>
