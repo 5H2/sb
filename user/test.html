@@ -275,6 +275,26 @@
                 updateTotalInvestments(portfolio);
             }
 
+            function savePortfolioToURL(portfolio) {
+                const urlParams = new URLSearchParams();
+                urlParams.set("portfolio", JSON.stringify(portfolio));
+                const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+
+            function loadPortfolioFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const portfolioData = urlParams.get("portfolio");
+                if (portfolioData) {
+                    const portfolio = JSON.parse(portfolioData);
+                    displayPortfolio(portfolio);
+                    updateTotalSpend(portfolio);
+                    updateTotalInvestments(portfolio);
+                }
+            }
+
+            loadPortfolioFromURL();
+
             loadPortfolio();
         });
 
