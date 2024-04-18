@@ -51,7 +51,7 @@
         }
 
         input[type="text"]::placeholder {
-            color: #6c7a8c; /* Set placeholder color to white */
+            color: #6c7a8c;
         }
 
         input[type="text"]:focus {
@@ -82,20 +82,20 @@
             position: absolute;
             bottom: 20px;
             right: 20px;
-            width: 50px; /* Adjust size of the button */
-            height: 50px; /* Adjust size of the button */
+            width: 50px;
+            height: 50px;
             background-color: #414954;
             border: none;
             padding: 0;
             border-radius: 5px;
             cursor: pointer;
-            overflow: hidden; /* Added to ensure the image doesn't overflow */
+            overflow: hidden;
             transition: .2s ease
         }
 
         .btn-corner img {
-            width: 60%; /* Ensure the image fills the button */
-            height: auto; /* Maintain aspect ratio */
+            width: 60%;
+            height: auto;
         }
 
         .btn-corner:hover {
@@ -105,25 +105,25 @@
         .btn-flower {
             position: absolute;
             bottom: 20px;
-            right: 80px; /* Adjust the position to align with Discord button */
-            width: 50px; /* Adjust size of the button */
-            height: 50px; /* Adjust size of the button */
+            right: 80px;
+            width: 50px;
+            height: 50px;
             background-color: #515c6b;
             border: none;
             padding: 0;
             border-radius: 5px;
             cursor: pointer;
-            overflow: hidden; /* Added to ensure the image doesn't overflow */
+            overflow: hidden;
             transition: .2s ease
         }
 
         .btn-flower::after {
-            content: "✿"; /* Unicode character for flower */
-            font-size: 24px; /* Adjust the size of the flower */
-            color: #fff; /* Color of the flower */
+            content: "✿";
+            font-size: 24px;
+            color: #fff;
             display: block;
             text-align: center;
-            line-height: 50px; /* Center vertically */
+            line-height: 50px;
         }
 
         .btn-flower:hover {
@@ -147,14 +147,14 @@
             position: absolute;
             bottom: 20px;
             left: 20px;
-            width: 50px; /* Adjust size of the button */
-            height: 50px; /* Adjust size of the button */
+            width: 50px;
+            height: 50px;
             background-color: #414954;
             border: none;
             padding: 0;
             border-radius: 5px;
             cursor: pointer;
-            overflow: hidden; /* Added to ensure the image doesn't overflow */
+            overflow: hidden;
             transition: .2s ease;
             font-size: 24px;
         }
@@ -179,22 +179,20 @@
 
 <button class="btn-flower" id="flowerButton"></button>
 
-<!-- New button for coinflip -->
 <button class="btn-coinflip" id="coinflipButton">🎰</button>
 
 <script>
     document.getElementById("accessKeyForm").addEventListener("submit", function (event) {
         event.preventDefault();
         const inputKey = document.getElementById("accessKey").value;
-        console.log("Input Key:", inputKey); // Log input key for debugging
+        console.log("Input Key:", inputKey);
         const redirectURL = "user/" + inputKey;
-        console.log("Redirect URL:", redirectURL); // Log redirection URL for debugging
+        console.log("Redirect URL:", redirectURL);
         window.location.href = redirectURL;
     });
     
         document.getElementById("coinflipButton").addEventListener("click", function () {
-        // Redirect to coinflip.html
-        window.location.href = "coinflip.html";
+        window.location.href = "coinflip";
     });
 
     let isBackgroundToggled = localStorage.getItem("isBackgroundToggled") === "true";
@@ -216,7 +214,6 @@
         const body = document.body;
         if (toggle) {
             body.classList.add("gif-background");
-            // Lazy load the GIF
             const gifImage = new Image();
             gifImage.src = "https://pa1.aminoapps.com/7675/9ac7e4c3e797f282217e5e58e08a17c1f1e2214dr1-400-225_hq.gif";
             gifImage.onload = function() {
