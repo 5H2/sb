@@ -208,10 +208,6 @@
         <div id="portfolio-list"></div>
     </div>
 
-    <div id="total-investments">
-        Total Investments: <span id="total-investments-amount">0</span> in <span id="unique-items">0</span> unique items
-    </div>
-
     <div id="total-spend">
         Total Assets: <span id="total-spend-amount">0</span> coins
     </div>
@@ -253,12 +249,12 @@
 
             function updateTotalSpend(portfolio) {
                 const totalSpend = portfolio.reduce((acc, entry) => acc + (entry.quantity * entry.price), 0);
-                totalSpendAmount.textContent = totalSpend;
+                totalSpendAmount.textContent = shortenNumber(totalSpend);
             }
 
             function updateTotalInvestments(portfolio) {
-                const totalInvestments = portfolio.reduce((acc, entry) => acc + entry.quantity, 0);
-                totalInvestmentsAmount.textContent = totalInvestments;
+                const totalInvestments = portfolio.reduce((acc, entry) => acc + parseInt(entry.quantity), 0);
+                totalInvestmentsAmount.textContent = shortenNumber(totalInvestments);
                 const uniqueItemIds = new Set(portfolio.map(entry => entry.item));
                 uniqueItems.textContent = uniqueItemIds.size;
             }
@@ -278,6 +274,26 @@
                 updateTotalSpend(portfolio);
                 updateTotalInvestments(portfolio);
             }
+
+            function savePortfolioToURL(portfolio) {
+                const urlParams = new URLSearchParams();
+                urlParams.set("portfolio", JSON.stringify(portfolio));
+                const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+                window.history.replaceState({}, '', newUrl);
+            }
+
+            function loadPortfolioFromURL() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const portfolioData = urlParams.get("portfolio");
+                if (portfolioData) {
+                    const portfolio = JSON.parse(portfolioData);
+                    displayPortfolio(portfolio);
+                    updateTotalSpend(portfolio);
+                    updateTotalInvestments(portfolio);
+                }
+            }
+
+            loadPortfolioFromURL();
 
             loadPortfolio();
         });
@@ -302,25 +318,16 @@
             const suggestions = document.getElementById("suggestions");
             suggestions.innerHTML = "";
             const items = {
-                CORRUPTED_BAIT: "Corrupted Bait",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "Enchantment Ultimate No Pain No Gain 2",
-                TARANTULA_WEB: "Tarantula Web",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "Enchantment Ultimate No Pain No Gain 1",
-                DUNGEON_TRAP: "Dungeon Trap",
-                DARK_ORB: "Dark Orb",
-                ARCHITECT_FIRST_DRAFT: "Architect First Draft",
-                ENCHANTMENT_PROTECTION_7: "Enchantment Protection 7",
-                ENCHANTMENT_PROTECTION_6: "Enchantment Protection 6",
-                RITUAL_RESIDUE: "Ritual Residue",
-                ESSENCE_DRAGON: "Dragon Essence",
+                BOOSTER_COOKIE: "Booster Cookie",
+                STOCK_OF_STONKS: "Stock of Stonks",
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
-            let count = 0; // Counter for limiting suggestions
+            let count = 0;
             Object.entries(items).forEach(([id, item]) => {
                 if (count < 5 && item.toLowerCase().includes(search)) {
                     const li = document.createElement("li");
                     const img = document.createElement("img");
-                    img.src = getImageUrl(id); // Use item ID to get image URL
+                    img.src = getImageUrl(id);
                     li.appendChild(img);
                     const span = document.createElement("span");
                     span.textContent = item;
@@ -351,7 +358,7 @@
             div.appendChild(img);
             const details = document.createElement("div");
             details.classList.add("item-details");
-            details.innerHTML = `<strong>${getDisplayName(selectedItem)}</strong><br>Bought ${quantity} at ${price} coins each (Total: ${quantity * price} Coins)`;
+            details.innerHTML = `<strong>${getDisplayName(selectedItem)}</strong><br>Bought ${quantity} at ${price} coins each (Total: ${shortenNumber(quantity * price)} Coins)`;
             div.appendChild(details);
             const removeButton = document.createElement("span");
             removeButton.classList.add("remove-item");
@@ -362,24 +369,15 @@
             });
             div.appendChild(removeButton);
             portfolioList.appendChild(div);
-            document.getElementById("total-spend-amount").textContent = parseInt(document.getElementById("total-spend-amount").textContent) + (quantity * price);
+            document.getElementById("total-spend-amount").textContent = shortenNumber(parseInt(document.getElementById("total-spend-amount").textContent) + (quantity * price));
             closePopup();
         }
 
         function getImageUrl(item) {
-            const imageUrlPrefix = '../images/';
+            const imageUrlPrefix = '';
             const itemImages = {
-                CORRUPTED_BAIT: "CORRUPTED_BAIT.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2.png",
-                TARANTULA_WEB: "TARANTULA_WEB.png",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1.png",
-                DUNGEON_TRAP: "DUNGEON_TRAP.png",
-                DARK_ORB: "DARK_ORB.png",
-                ARCHITECT_FIRST_DRAFT: "ARCHITECT_FIRST_DRAFT.png",
-                ENCHANTMENT_PROTECTION_7: "ENCHANTMENT_PROTECTION_7.png",
-                ENCHANTMENT_PROTECTION_6: "ENCHANTMENT_PROTECTION_6.png",
-                RITUAL_RESIDUE: "RITUAL_RESIDUE.png",
-                ESSENCE_DRAGON: "ESSENCE_DRAGON.png",
+                BOOSTER_COOKIE: "BOOSTER_COOKIE.png",
+                STOCK_OF_STONKS: "STOCK_OF_STONKS.png",
                 RECOMBOBULATOR_3000: "RECOMBOBULATOR_3000.png"
             };
             return imageUrlPrefix + itemImages[item] || "";
@@ -387,20 +385,25 @@
 
         function getDisplayName(item) {
             const itemNames = {
-                CORRUPTED_BAIT: "Corrupted Bait",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_2: "Enchantment Ultimate No Pain No Gain 2",
-                TARANTULA_WEB: "Tarantula Web",
-                ENCHANTMENT_ULTIMATE_NO_PAIN_NO_GAIN_1: "Enchantment Ultimate No Pain No Gain 1",
-                DUNGEON_TRAP: "Dungeon Trap",
-                DARK_ORB: "Dark Orb",
-                ARCHITECT_FIRST_DRAFT: "Architect First Draft",
-                ENCHANTMENT_PROTECTION_7: "Enchantment Protection 7",
-                ENCHANTMENT_PROTECTION_6: "Enchantment Protection 6",
-                RITUAL_RESIDUE: "Ritual Residue",
-                ESSENCE_DRAGON: "Dragon Essence",
+                BOOSTER_COOKIE: "Booster Cookie",
+                STOCK_OF_STONKS: "Stock of Stonks",
                 RECOMBOBULATOR_3000: "Recombobulator 3000"
             };
             return itemNames[item] || "";
+        }
+
+        function shortenNumber(num) {
+            const absNum = Math.abs(num);
+            const shortNum = (absNum >= 1e12)
+                ? (absNum / 1e12).toFixed(1) + 't'
+                : (absNum >= 1e9)
+                    ? (absNum / 1e9).toFixed(1) + 'b'
+                    : (absNum >= 1e6)
+                        ? (absNum / 1e6).toFixed(1) + 'm'
+                        : (absNum >= 1e3)
+                            ? (absNum / 1e3).toFixed(1) + 'k'
+                            : absNum;
+            return (num < 0 ? '-' : '') + shortNum;
         }
     </script>
 </body>
