@@ -211,17 +211,12 @@
   <a href="slots.html" class="btn-corner">🎲</a>
 
 <script>
-document.addEventListener("keydown", function(event) {
-  if (event.key === "~") {
-    spinWheel(true);
-  }
-});
 
 function spinWheel(isKeyPressed){
   var deg;
 
   if (isKeyPressed) {
-    var options = [90, 180, 143];
+    var options = [0];
     deg = options[Math.floor(Math.random() * options.length)];
   } else {
     var x = 9999;
