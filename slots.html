@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✿ Slots | Skyblock Seniors</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Verdana;
+      background-color: #22272e;
+      color: #fff;
+      font-weight: 1000;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 400px;
+      margin: 50px auto;
+      background-color: #2d333b;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    .title {
+      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .doors {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .door {
+      background: #444d59;
+      box-shadow: 0 0 3px 2px rgba(0, 0, 0, 0.4) inset;
+      width: 70px;
+      height: 100px;
+      overflow: hidden;
+      border-radius: 1ex;
+      margin: 1ch;
+    }
+
+    .boxes {
+      transition: transform 1s ease-in-out;
+    }
+
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 2rem;
+    }
+
+    .buttons {
+      text-align: center;
+    }
+
+    button {
+      cursor: pointer;
+      font-size: 1.2rem;
+      text-transform: uppercase;
+      margin: 0.5rem;
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover {
+      background-color: #45a049;
+    }
+
+    .payout-text {
+      text-align: center;
+      color: #ccc;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">Slots</div>
+    <div class="doors">
+      <div class="door">
+        <div class="boxes">
+          <!-- <div class="box">?</div> -->
+        </div>
+      </div>
+
+      <div class="door">
+        <div class="boxes">
+          <!-- <div class="box">?</div> -->
+        </div>
+      </div>
+
+      <div class="door">
+        <div class="boxes">
+          <!-- <div class="box">?</div> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons">
+      <button id="spinner">Spin</button>
+      <!-- Removed reset button -->
+    </div>
+
+    <div class="payout-text">
+      <p>🍓🍓 = x1.5 &emsp; 🍓🍓🍓 = x3</p>
+      <p>🍌🍌 = x1.5 &emsp; 🍌🍌🍌 = x3</p>
+      <p>🥭🥭 = x1.5 &emsp; 🥭🥭🥭 = x4</p>
+      <p>🍍🍍 = x1.5 &emsp; 🍍🍍🍍 = x4</p>
+      <p>🍋🍋 = x2 &emsp; 🍋🍋🍋 = x5</p>
+      <p>🍉🍉 = x2 &emsp; 🍉🍉🍉 = x5</p>
+      <p>🍇🍇 = x2 &emsp; 🍇🍇🍇 = x5</p>
+      <p>🍎🍎 = x2 &emsp; 🍎🍎🍎 = x5</p>
+      <p>🍒🍒 = x2.5 &emsp; 🍒🍒🍒 = x10</p>
+    </div>
+  </div>
+
+  <script>
+(function () {
+  "use strict";
+
+  const items = [
+    "🍓",
+    "🍌",
+    "🥭",
+    "🍍",
+    "🍓",
+    "🍌",
+    "🥭",
+    "🍍",
+    "🍓",
+    "🍌",
+    "🥭",
+    "🍍",
+    "🍓",
+    "🍌",
+    "🥭",
+    "🍍",
+    
+    "🍋",
+    "🍉",
+    "🍇",
+    "🍎",
+    "🍋",
+    "🍉",
+    "🍇",
+    "🍎",
+    
+    "🍒"
+  ];
+
+  const doors = document.querySelectorAll(".door");
+  const spinnerButton = document.querySelector("#spinner");
+  spinnerButton.addEventListener("click", spin);
+
+  async function spin() {
+    init();
+    spinnerButton.disabled = true;
+    for (const door of doors) {
+      const boxes = door.querySelector(".boxes");
+      const duration = parseInt(boxes.style.transitionDuration);
+      boxes.style.transform = "translateY(0)";
+      await new Promise((resolve) => setTimeout(resolve, duration * 100));
+    }
+    checkMultiplier();
+    spinnerButton.disabled = false;
+  }
+
+  function init() {
+    for (const door of doors) {
+      door.dataset.spinned = "0"; // Reset the dataset.spinned attribute
+      const boxes = door.querySelector(".boxes");
+      const boxesClone = boxes.cloneNode(false);
+
+      const pool = ["❓"];
+
+      const arr = [];
+      for (let n = 0; n < 1; n++) {
+        arr.push(...items);
+      }
+      pool.push(...shuffle(arr));
+
+      boxesClone.addEventListener(
+        "transitionstart",
+        function () {
+          door.dataset.spinned = "1";
+          this.querySelectorAll(".box").forEach((box) => {
+            box.style.filter = "blur(1px)";
+          });
+        },
+        { once: true }
+      );
+
+      boxesClone.addEventListener(
+        "transitionend",
+        function () {
+          this.querySelectorAll(".box").forEach((box, index) => {
+            box.style.filter = "blur(0)";
+            if (index > 0) this.removeChild(box);
+          });
+        },
+        { once: true }
+      );
+
+      for (let i = pool.length - 1; i >= 0; i--) {
+        const box = document.createElement("div");
+        box.classList.add("box");
+        box.style.width = door.clientWidth + "px";
+        box.style.height = door.clientHeight + "px";
+        box.textContent = pool[i];
+        boxesClone.appendChild(box);
+      }
+      boxesClone.style.transitionDuration = `1s`;
+      boxesClone.style.transform = `translateY(-${
+        door.clientHeight * (pool.length - 1)
+      }px)`;
+      door.replaceChild(boxesClone, boxes);
+    }
+  }
+
+  function checkMultiplier() {
+    const doorsContent = Array.from(doors).map(door => Array.from(door.querySelectorAll('.box')).map(box => box.textContent));
+    const multipliers = {
+      "🍓": { length: [2, 3], value: [1.5, 3] },
+      "🍌": { length: [2, 3], value: [1.5, 3] },
+      "🥭": { length: [2, 3], value: [1.5, 4] },
+      "🍍": { length: [2, 3], value: [1.5, 4] },
+      "🍋": { length: [2, 3], value: [2, 5] },
+      "🍉": { length: [2, 3], value: [2, 5] },
+      "🍇": { length: [2, 3], value: [2, 5] },
+      "🍎": { length: [2, 3], value: [2, 5] },
+      "🍒": { length: [2, 3], value: [2.5, 10] }
+    };
+
+    doorsContent.forEach((doorContent, doorIndex) => {
+      for (let emoji in multipliers) {
+        const { length, value } = multipliers[emoji];
+        length.forEach((len, index) => {
+          for (let i = 0; i <= doorContent.length - len; i++) {
+            if (doorContent.slice(i, i + len).every(item => item === emoji)) {
+              highlightMultiplier(doorIndex, i, len, value[index]);
+            }
+          }
+        });
+      }
+    });
+  }
+
+  function highlightMultiplier(doorIndex, index, length, multiplier) {
+    const door = doors[doorIndex];
+    const boxes = door.querySelectorAll('.box');
+    const multiplierText = `x${multiplier}`;
+
+    for (let i = index; i < index + length; i++) {
+      if (boxes[i].textContent === multiplierText) {
+        boxes[i].style.backgroundColor = "yellow";
+        boxes[i].style.color = "black";
+      }
+    }
+  }
+
+  function shuffle([...arr]) {
+    let m = arr.length;
+    while (m) {
+      const i = Math.floor(Math.random() * m--);
+      [arr[m], arr[i]] = [arr[i], arr[m]];
+    }
+    return arr;
+  }
+
+  init();
+})();
+
+  </script>
+</body>
+</html>
