@@ -156,6 +156,32 @@
     .access-button:hover {
       transform: scale(1.1);
     }
+
+    /* New button style */
+    .btn-corner {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      background-color: #414954;
+      border: none;
+      padding: 0;
+      border-radius: 5px;
+      cursor: pointer;
+      overflow: hidden;
+      transition: .2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-size: 24px;
+      text-decoration: none;
+    }
+
+    .btn-corner:hover {
+      transform: scale(1.25);
+    }
   </style>
 </head>
 <body>
@@ -180,6 +206,9 @@
 
     <button class="spin" onclick="spinWheel()">SPIN</button>
   </div>
+
+  <!-- New button to go to slots.html -->
+  <a href="slots.html" class="btn-corner">🎲</a>
 
 <script>
 document.addEventListener("keydown", function(event) {
