@@ -380,19 +380,19 @@
         }
 
         function getImageUrl(item) {
-            const imageUrlPrefix = '';
-            const itemImages = {
-                WHEAT: "WHEAT.",
-                ENCHANTED_BREAD: "ENCHANTED_BREAD.png",
-                HAY_BALE: "HAY_BALE.png",
-                ENCHANTED_HAY_BALE: "ENCHANTED_HAY_BALE.png",
-                TIGHTLY_TIED_HAY_BALE: "TIGHTLY-TIED_HAY_BALE.png",
-                SEEDS: "SEEDS.png",
-                ENCHANTED_SEEDS: "ENCHANTED_SEEDS.png",
-                BOX_OF_SEEDS: "BOX_OF_SEEDS.png"
-            };
-            return imageUrlPrefix + itemImages[item] || "";
-        }
+    const imageUrlPrefix = 'bazaaritems/farming/';
+    const itemImages = {
+        WHEAT: "wheat/WHEAT.png",
+        ENCHANTED_BREAD: "wheat/ENCHANTED_BREAD.png",
+        HAY_BALE: "wheat/HAY_BALE.png",
+        ENCHANTED_HAY_BALE: "wheat/ENCHANTED_HAY_BALE.png",
+        TIGHTLY_TIED_HAY_BALE: "wheat/TIGHTLY-TIED_HAY_BALE.png",
+        SEEDS: "wheat/SEEDS.png",
+        ENCHANTED_SEEDS: "wheat/ENCHANTED_SEEDS.png",
+        BOX_OF_SEEDS: "wheat/BOX_OF_SEEDS.png"
+    };
+    return imageUrlPrefix + itemImages[item] || "";
+}
 
         function getDisplayName(item) {
             const itemNames = {
