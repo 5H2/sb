@@ -161,7 +161,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         #add-item-container:hover {
             background-color: rgba(0, 123, 255, 0.1);
@@ -195,9 +195,9 @@
             <span class="close" onclick="closePopup()">&times;</span>
             <input type="text" id="search" placeholder="Search for an item..." oninput="filterItems()" autocomplete="off" >
             <ul class="search-suggestions" id="suggestions"></ul>
-            <label for="quantity">Quantity:</label>
+            <label for="quantity">Quantity: </label>
             <input type="number" id="quantity" required autocomplete="off">
-            <label for="price">Price:</label>
+            <label for="price">Price per unit: </label>
             <input type="number" id="price" required autocomplete="off">
             <button onclick="addToPortfolio()">Save to Portfolio</button>
         </div>
