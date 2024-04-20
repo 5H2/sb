@@ -318,9 +318,15 @@
             const suggestions = document.getElementById("suggestions");
             suggestions.innerHTML = "";
             const items = {
-                BOOSTER_COOKIE: "Booster Cookie",
-                STOCK_OF_STONKS: "Stock of Stonks",
-                RECOMBOBULATOR_3000: "Recombobulator 3000"
+                WHEAT: "Wheat",
+                ENCHANTED_BREAD: "Enchanted Bread",
+                HAY_BALE: "Hay Bale",
+                ENCHANTED_HAY_BALE: "Enchanted Hay Bale",
+                TIGHTLY_TIED_HAY_BALE: "Tightly-Tied Hay Bale",
+                SEEDS: "Seeds",
+                ENCHANTED_SEEDS: "Enchanted Seeds",
+                BOX_OF_SEEDS: "Box of Seeds"
+                
             };
             let count = 0; // Counter for limiting suggestions
             Object.entries(items).forEach(([id, item]) => {
@@ -376,18 +382,28 @@
         function getImageUrl(item) {
             const imageUrlPrefix = '';
             const itemImages = {
-                BOOSTER_COOKIE: "BOOSTER_COOKIE.png",
-                STOCK_OF_STONKS: "STOCK_OF_STONKS.png",
-                RECOMBOBULATOR_3000: "RECOMBOBULATOR_3000.png"
+                WHEAT: "WHEAT.",
+                ENCHANTED_BREAD: "ENCHANTED_BREAD.png",
+                HAY_BALE: "HAY_BALE.png",
+                ENCHANTED_HAY_BALE: "ENCHANTED_HAY_BALE.png",
+                TIGHTLY_TIED_HAY_BALE: "TIGHTLY-TIED_HAY_BALE.png",
+                SEEDS: "SEEDS.png",
+                ENCHANTED_SEEDS: "ENCHANTED_SEEDS.png",
+                BOX_OF_SEEDS: "BOX_OF_SEEDS.png"
             };
             return imageUrlPrefix + itemImages[item] || "";
         }
 
         function getDisplayName(item) {
             const itemNames = {
-                BOOSTER_COOKIE: "Booster Cookie",
-                STOCK_OF_STONKS: "Stock of Stonks",
-                RECOMBOBULATOR_3000: "Recombobulator 3000"
+                WHEAT: "Wheat",
+                ENCHANTED_BREAD: "Enchanted Bread",
+                HAY_BALE: "Hay Bale",
+                ENCHANTED_HAY_BALE: "Enchanted Hay Bale",
+                TIGHTLY_TIED_HAY_BALE: "Tightly-Tied Hay Bale",
+                SEEDS: "Seeds",
+                ENCHANTED_SEEDS: "Enchanted Seeds",
+                BOX_OF_SEEDS: "Box of Seeds"
             };
             return itemNames[item] || "";
         }
