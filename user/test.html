@@ -176,6 +176,21 @@
         #total-investments { /* New CSS for Total Investments */
             margin-top: 20px;
         }
+
+        /* Added Styles */
+        .quantity-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .quantity-button {
+            flex: 1;
+            margin-right: 5px;
+        }
+        
+        #quantity-label {
+            margin-top: 15px; /* Adjust margin as needed */
+        }
     </style>
 </head>
 <body>
@@ -195,15 +210,21 @@
             <span class="close" onclick="closePopup()">&times;</span>
             <input type="text" id="search" placeholder="Search for an item..." oninput="filterItems()" autocomplete="off" >
             <ul class="search-suggestions" id="suggestions"></ul>
-            <label for="quantity">Quantity: </label>
+            <label for="quantity" id="quantity-label">Quantity: </label> <!-- Updated ID for label -->
             <input type="number" id="quantity" required autocomplete="off">
+            <div class="quantity-buttons">
+                <button class="quantity-button" onclick="setQuantity(5000)">5000</button>
+                <button class="quantity-button" onclick="setQuantity(10000)">10000</button>
+                <button class="quantity-button" onclick="setQuantity(71680)">71680</button>
+            </div>
             <label for="price">Price per unit: </label>
             <input type="number" id="price" required autocomplete="off">
-            <button onclick="addToPortfolio()">Save to Portfolio</button>
+            <button onclick="addItem()">Add to Portfolio</button>
         </div>
     </div>
 
     <div id="portfolio">
+            <div id="portfolio">
         <h2>Portfolio</h2>
         <div id="portfolio-list"></div>
     </div>
@@ -580,6 +601,12 @@ ENCHANTED_SUGAR_CANE: "Enchanted Sugar Cane",
                             : absNum;
             return (num < 0 ? '-' : '') + shortNum;
         }
+        
+        
+        function setQuantity(quantity) {
+    document.getElementById("quantity").value = quantity;
+}
+
     </script>
 </body>
 </html>
