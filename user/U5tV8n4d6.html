@@ -161,7 +161,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         #add-item-container:hover {
             background-color: rgba(0, 123, 255, 0.1);
@@ -175,6 +175,21 @@
         }
         #total-investments { /* New CSS for Total Investments */
             margin-top: 20px;
+        }
+
+        /* Added Styles */
+        .quantity-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+        .quantity-button {
+            flex: 1;
+            margin-right: 5px;
+        }
+        
+        #quantity-label {
+            margin-top: 15px; /* Adjust margin as needed */
         }
     </style>
 </head>
@@ -195,15 +210,22 @@
             <span class="close" onclick="closePopup()">&times;</span>
             <input type="text" id="search" placeholder="Search for an item..." oninput="filterItems()" autocomplete="off" >
             <ul class="search-suggestions" id="suggestions"></ul>
-            <label for="quantity">Quantity:</label>
+            <label for="quantity" id="quantity-label">Quantity: </label> <!-- Updated ID for label -->
             <input type="number" id="quantity" required autocomplete="off">
-            <label for="price">Price:</label>
+            <div class="quantity-buttons">
+                <button class="quantity-button" onclick="setQuantity(5000)">5000</button>
+                <button class="quantity-button" onclick="setQuantity(10000)">10000</button>
+                <button class="quantity-button" onclick="setQuantity(71680)">71680</button>
+            </div>
+            <label for="price">Price per unit: </label>
             <input type="number" id="price" required autocomplete="off">
-            <button onclick="addToPortfolio()">Save to Portfolio</button>
+            <button onclick="addToPortfolio()">Add to Portfolio</button>
+
         </div>
     </div>
 
     <div id="portfolio">
+            <div id="portfolio">
         <h2>Portfolio</h2>
         <div id="portfolio-list"></div>
     </div>
@@ -318,16 +340,76 @@
             const suggestions = document.getElementById("suggestions");
             suggestions.innerHTML = "";
             const items = {
-                BOOSTER_COOKIE: "Booster Cookie",
-                STOCK_OF_STONKS: "Stock of Stonks",
-                RECOMBOBULATOR_3000: "Recombobulator 3000"
+                WHEAT: "Wheat",
+                ENCHANTED_BREAD: "Enchanted Bread",
+                HAY_BALE: "Hay Bale",
+                ENCHANTED_HAY_BALE: "Enchanted Hay Bale",
+                TIGHTLY_TIED_HAY_BALE: "Tightly-Tied Hay Bale",
+                SEEDS: "Seeds",
+                ENCHANTED_SEEDS: "Enchanted Seeds",
+                BOX_OF_SEEDS: "Box of Seeds",
+                CARROT: "Carrot",
+                ENCHANTED_CARROT: "Enchanted Carrot",
+                ENCHANTED_CARROT_ON_A_STICK: "Enchanted Carrot on a Stick",
+                ENCHANTED_GOLDEN_CARROT: "Enchanted Golden Carrot",
+                POTATO: "Potato",
+                POISONOUS_POTATO: "Poisonous Potato",
+                ENCHANTED_POTATO: "Enchanted Potato",
+                ENCHANTED_POISONOUS_POTATO: "Enchanted Poisonous Potato",
+                ENCHANTED_BAKED_POTATO: "Enchanted Baked Potato",
+                PUMPKIN: "Pumpkin",
+                ENCHANTED_PUMPKIN: "Enchanted Pumpkin",
+                POLISHED_PUMPKIN: "Polished Pumpkin",
+                MELON: "Melon",
+                ENCHANTED_MELON: "Enchanted Melon",
+                ENCHANTED_GLISTERING_MELON: "Enchanted Glistering Melon",
+                MELON_BLOCK: "Melon Block",
+                ENCHANTED_MELON_BLOCK: "Enchanted Melon Block",
+RED_MUSHROOM: "Red Mushroom",
+ENCHANTED_RED_MUSHROOM: "Enchanted Red Mushroom",
+RED_MUSHROOM_BLOCK: "Red Mushroom Block",
+ENCHANTED_RED_MUSHROOM_BLOCK: "Enchanted Red Mushroom Block",
+BROWN_MUSHROOM: "Brown Mushroom",
+ENCHANTED_BROWN_MUSHROOM: "Enchanted Brown Mushroom",
+BROWN_MUSHROOM_BLOCK: "Brown Mushroom Block",
+ENCHANTED_BROWN_MUSHROOM_BLOCK: "Enchanted Brown Mushroom Block",
+COCOA_BEANS: "Cocoa Beans",
+ENCHANTED_COCOA_BEAN: "Enchanted Cocoa Bean",
+ENCHANTED_COOKIE: "Enchanted Cookie",
+CACTUS: "Cactus",
+ENCHANTED_CACTUS_GREEN: "Enchanted Cactus Green",
+ENCHANTED_CACTUS: "Enchanted Cactus",
+SUGAR_CANE: "Sugar Cane",
+ENCHANTED_SUGAR: "Enchanted Sugar",
+ENCHANTED_PAPER: "Enchanted Paper",
+ENCHANTED_SUGAR_CANE: "Enchanted Sugar Cane",
+    LEATHER: "Leather",
+    ENCHANTED_LEATHER: "Enchanted Leather",
+    RAW_BEEF: "Raw Beef",
+    ENCHANTED_RAW_BEEF: "Enchanted Raw Beef",
+    RAW_PORKCHOP: "Raw Porkchop",
+    ENCHANTED_PORK: "Enchanted Pork",
+    ENCHANTED_GRILLED_PORK: "Enchanted Grilled Pork",
+    RAW_CHICKEN: "Raw Chicken",
+    ENCHANTED_RAW_CHICKEN: "Enchanted Raw Chicken",
+    ENCHANTED_CAKE: "Enchanted Cake",
+    FEATHER: "Feather",
+    ENCHANTED_FEATHER: "Enchanted Feather",
+    ENCHANTED_EGG: "Enchanted Egg",
+    SUPER_ENCHANTED_EGG: "Super Enchanted Egg",
+    OMEGA_ENCHANTED_EGG: "Omega Enchanted Egg"
+
+
+
+
+                
             };
-            let count = 0;
+            let count = 0; // Counter for limiting suggestions
             Object.entries(items).forEach(([id, item]) => {
                 if (count < 5 && item.toLowerCase().includes(search)) {
                     const li = document.createElement("li");
                     const img = document.createElement("img");
-                    img.src = getImageUrl(id);
+                    img.src = getImageUrl(id); // Use item ID to get image URL
                     li.appendChild(img);
                     const span = document.createElement("span");
                     span.textContent = item;
@@ -374,20 +456,135 @@
         }
 
         function getImageUrl(item) {
-            const imageUrlPrefix = '';
-            const itemImages = {
-                BOOSTER_COOKIE: "BOOSTER_COOKIE.png",
-                STOCK_OF_STONKS: "STOCK_OF_STONKS.png",
-                RECOMBOBULATOR_3000: "RECOMBOBULATOR_3000.png"
-            };
-            return imageUrlPrefix + itemImages[item] || "";
-        }
+    const imageUrlPrefix = 'bazaaritems/farming/';
+    const itemImages = {
+        WHEAT: "wheat/WHEAT.png",
+        ENCHANTED_BREAD: "wheat/ENCHANTED_BREAD.png",
+        HAY_BALE: "wheat/HAY_BALE.png",
+        ENCHANTED_HAY_BALE: "wheat/ENCHANTED_HAY_BALE.png",
+        TIGHTLY_TIED_HAY_BALE: "wheat/TIGHTLY-TIED_HAY_BALE.png",
+        SEEDS: "wheat/SEEDS.png",
+        ENCHANTED_SEEDS: "wheat/ENCHANTED_SEEDS.png",
+        BOX_OF_SEEDS: "wheat/BOX_OF_SEEDS.png",
+        CARROT: "carrot/CARROT.png",
+        ENCHANTED_CARROT: "carrot/ENCHANTED_CARROT.png",
+        ENCHANTED_CARROT_ON_A_STICK: "carrot/ENCHANTED_CARROT_ON_A_STICK.png",
+        ENCHANTED_GOLDEN_CARROT: "carrot/ENCHANTED_GOLDEN_CARROT.png",
+        POTATO: "potato/POTATO.png",
+        POISONOUS_POTATO: "potato/POISONOUS_POTATO.png",
+        ENCHANTED_POTATO: "potato/ENCHANTED_POTATO.png",
+        ENCHANTED_POISONOUS_POTATO: "potato/ENCHANTED_POISONOUS_POTATO.png",
+        ENCHANTED_BAKED_POTATO: "potato/ENCHANTED_BAKED_POTATO.png",
+        PUMPKIN: "pumpkin/PUMPKIN.png",
+        ENCHANTED_PUMPKIN: "pumpkin/ENCHANTED_PUMPKIN.png",
+        POLISHED_PUMPKIN: "pumpkin/POLISHED_PUMPKIN.png",
+        MELON: "melon/MELON.png",
+        ENCHANTED_MELON: "melon/ENCHANTED_MELON.png",
+        ENCHANTED_GLISTERING_MELON: "melon/ENCHANTED_GLISTERING_MELON.png",
+        MELON_BLOCK: "melon/MELON_BLOCK.png",
+        ENCHANTED_MELON_BLOCK: "melon/ENCHANTED_MELON_BLOCK.png",
+RED_MUSHROOM: "mushroom/RED_MUSHROOM.png",
+ENCHANTED_RED_MUSHROOM: "mushroom/ENCHANTED_RED_MUSHROOM.png",
+RED_MUSHROOM_BLOCK: "mushroom/RED_MUSHROOM_BLOCK.png",
+ENCHANTED_RED_MUSHROOM_BLOCK: "mushroom/ENCHANTED_RED_MUSHROOM_BLOCK.png",
+BROWN_MUSHROOM: "mushroom/BROWN_MUSHROOM.png",
+ENCHANTED_BROWN_MUSHROOM: "mushroom/ENCHANTED_BROWN_MUSHROOM.png",
+BROWN_MUSHROOM_BLOCK: "mushroom/BROWN_MUSHROOM_BLOCK.png",
+ENCHANTED_BROWN_MUSHROOM_BLOCK: "mushroom/ENCHANTED_BROWN_MUSHROOM_BLOCK.png",
+COCOA_BEANS: "cocoa_beans/COCOA_BEANS.png",
+ENCHANTED_COCOA_BEAN: "cocoa_beans/ENCHANTED_COCOA_BEAN.png",
+ENCHANTED_COOKIE: "cocoa_beans/ENCHANTED_COOKIE.png",
+CACTUS: "cactus/CACTUS.png",
+ENCHANTED_CACTUS_GREEN: "cactus/ENCHANTED_CACTUS_GREEN.png",
+ENCHANTED_CACTUS: "cactus/ENCHANTED_CACTUS.png",
+SUGAR_CANE: "sugar_cane/SUGAR_CANE.png",
+ENCHANTED_SUGAR: "sugar_cane/ENCHANTED_SUGAR.png",
+ENCHANTED_PAPER: "sugar_cane/ENCHANTED_PAPER.png",
+ENCHANTED_SUGAR_CANE: "sugar_cane/ENCHANTED_SUGAR_CANE.png",
+    LEATHER: "cow/LEATHER.png",
+    ENCHANTED_LEATHER: "cow/ENCHANTED_LEATHER.png",
+    RAW_BEEF: "cow/RAW_BEEF.png",
+    ENCHANTED_RAW_BEEF: "cow/ENCHANTED_RAW_BEEF.png",
+    RAW_PORKCHOP: "pig/RAW_PORKCHOP.png",
+    ENCHANTED_PORK: "pig/ENCHANTED_PORK.png",
+    ENCHANTED_GRILLED_PORK: "pig/ENCHANTED_GRILLED_PORK.png",
+    RAW_CHICKEN: "chicken/RAW_CHICKEN.png",
+    ENCHANTED_RAW_CHICKEN: "chicken/ENCHANTED_RAW_CHICKEN.png",
+    ENCHANTED_CAKE: "chicken/ENCHANTED_CAKE.png",
+    FEATHER: "chicken/FEATHER.png",
+    ENCHANTED_FEATHER: "chicken/ENCHANTED_FEATHER.png",
+    ENCHANTED_EGG: "chicken/ENCHANTED_EGG.png",
+    SUPER_ENCHANTED_EGG: "chicken/SUPER_ENCHANTED_EGG.png",
+    OMEGA_ENCHANTED_EGG: "chicken/OMEGA_ENCHANTED_EGG.png"
+
+
+
+
+    };
+    return imageUrlPrefix + itemImages[item] || "";
+}
 
         function getDisplayName(item) {
             const itemNames = {
-                BOOSTER_COOKIE: "Booster Cookie",
-                STOCK_OF_STONKS: "Stock of Stonks",
-                RECOMBOBULATOR_3000: "Recombobulator 3000"
+                WHEAT: "Wheat",
+                ENCHANTED_BREAD: "Enchanted Bread",
+                HAY_BALE: "Hay Bale",
+                ENCHANTED_HAY_BALE: "Enchanted Hay Bale",
+                TIGHTLY_TIED_HAY_BALE: "Tightly-Tied Hay Bale",
+                SEEDS: "Seeds",
+                ENCHANTED_SEEDS: "Enchanted Seeds",
+                BOX_OF_SEEDS: "Box of Seeds",
+                CARROT: "Carrot",
+                ENCHANTED_CARROT: "Enchanted Carrot",
+                ENCHANTED_CARROT_ON_A_STICK: "Enchanted Carrot on a Stick",
+                ENCHANTED_GOLDEN_CARROT: "Enchanted Golden Carrot",
+                POTATO: "Potato",
+                POISONOUS_POTATO: "Poisonous Potato",
+                ENCHANTED_POTATO: "Enchanted Potato",
+                ENCHANTED_POISONOUS_POTATO: "Enchanted Poisonous Potato",
+                ENCHANTED_BAKED_POTATO: "Enchanted Baked Potato",
+                PUMPKIN: "Pumpkin",
+                ENCHANTED_PUMPKIN: "Enchanted Pumpkin",
+                POLISHED_PUMPKIN: "Polished Pumpkin",
+                MELON: "Melon",
+                ENCHANTED_MELON: "Enchanted Melon",
+                ENCHANTED_GLISTERING_MELON: "Enchanted Glistering Melon",
+                MELON_BLOCK: "Melon Block",
+                ENCHANTED_MELON_BLOCK: "Enchanted Melon Block",
+                RED_MUSHROOM: "Red Mushroom",
+ENCHANTED_RED_MUSHROOM: "Enchanted Red Mushroom",
+RED_MUSHROOM_BLOCK: "Red Mushroom Block",
+ENCHANTED_RED_MUSHROOM_BLOCK: "Enchanted Red Mushroom Block",
+BROWN_MUSHROOM: "Brown Mushroom",
+ENCHANTED_BROWN_MUSHROOM: "Enchanted Brown Mushroom",
+BROWN_MUSHROOM_BLOCK: "Brown Mushroom Block",
+ENCHANTED_BROWN_MUSHROOM_BLOCK: "Enchanted Brown Mushroom Block",
+COCOA_BEANS: "Cocoa Beans",
+ENCHANTED_COCOA_BEAN: "Enchanted Cocoa Bean",
+ENCHANTED_COOKIE: "Enchanted Cookie",
+CACTUS: "Cactus",
+ENCHANTED_CACTUS_GREEN: "Enchanted Cactus Green",
+ENCHANTED_CACTUS: "Enchanted Cactus",
+SUGAR_CANE: "Sugar Cane",
+ENCHANTED_SUGAR: "Enchanted Sugar",
+ENCHANTED_PAPER: "Enchanted Paper",
+ENCHANTED_SUGAR_CANE: "Enchanted Sugar Cane",
+    LEATHER: "Leather",
+    ENCHANTED_LEATHER: "Enchanted Leather",
+    RAW_BEEF: "Raw Beef",
+    ENCHANTED_RAW_BEEF: "Enchanted Raw Beef",
+    RAW_PORKCHOP: "Raw Porkchop",
+    ENCHANTED_PORK: "Enchanted Pork",
+    ENCHANTED_GRILLED_PORK: "Enchanted Grilled Pork",
+    RAW_CHICKEN: "Raw Chicken",
+    ENCHANTED_RAW_CHICKEN: "Enchanted Raw Chicken",
+    ENCHANTED_CAKE: "Enchanted Cake",
+    FEATHER: "Feather",
+    ENCHANTED_FEATHER: "Enchanted Feather",
+    ENCHANTED_EGG: "Enchanted Egg",
+    SUPER_ENCHANTED_EGG: "Super Enchanted Egg",
+    OMEGA_ENCHANTED_EGG: "Omega Enchanted Egg"
+
             };
             return itemNames[item] || "";
         }
@@ -405,6 +602,12 @@
                             : absNum;
             return (num < 0 ? '-' : '') + shortNum;
         }
+        
+        
+        function setQuantity(quantity) {
+    document.getElementById("quantity").value = quantity;
+}
+
     </script>
 </body>
 </html>
