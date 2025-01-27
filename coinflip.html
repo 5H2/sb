@@ -5,7 +5,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="style.css" />
-  <title>Coin Toss</title>
+  <title>✿ | Coinflip</title>
   <style>
     * {
       margin: 0;
@@ -154,7 +154,7 @@
 
   <div class="coin-container">
     <div class="coin" id="coin">
-      <img src="tails.png" alt="Tails" />
+      <img src="images/tails.png" alt="Tails" />
     </div>
     <button id="toss-button">Toss Coin</button>
     <p class="result"></p>
@@ -173,7 +173,7 @@
     function tossCoinFunction() {
       const randomVal = Math.random();
       const faceCoin = randomVal < 0.5 ? "Heads" : "Tails";
-      const imageUrl = faceCoin === "Heads" ? "heads.png" : "tails.png";
+      const imageUrl = faceCoin === "Heads" ? "images/heads.png" : "images/tails.png";
 
       coinIcon.classList.add("flip");
       setTimeout(() => {
