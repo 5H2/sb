@@ -14,33 +14,49 @@
             flex-direction: column;
             height: 100vh;
             margin: 0;
+            font-family: 'Arial', sans-serif;
+            color: #ffffff;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: #f1f1f1;
+            font-family: 'Verdana', sans-serif;
         }
 
         button {
-            margin-top: 20px;
-            padding: 15px 30px;
+            padding: 20px 40px;
             font-size: 18px;
-            background-color: #515c6b;
+            background-color: #4CAF50;
             color: #ffffff;
-            border: 1px solid #353d47;
+            border: none;
+            border-radius: 12px;
             cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: background-color 0.3s, transform 0.2s;
         }
 
         button:hover {
-            background-color: #93a4ba;
+            background-color: #45a049;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(1px);
         }
     </style>
+</head>
+<body>
 
+    <h1>Welcome to Skyblock Seniors</h1>
     <button onclick="redirectToPage()">Enter</button>
 
     <script>
         function redirectToPage() {
-            // Redirect to the specified URL
             window.location.href = 'https://skyblockseniors.com/home';
         }
     </script>
 </body>
-
 </html>
