@@ -150,12 +150,11 @@
 </head>
 
 <body>
-
   <a href="home" class="access-button">←</a>
-  
+
   <div class="coin-container">
     <div class="coin" id="coin">
-      <img src="https://media.geeksforgeeks.org/wp-content/uploads/20231016151806/tails.png" alt="Heads" />
+      <img src="tails.png" alt="Tails" />
     </div>
     <button id="toss-button">Toss Coin</button>
     <p class="result"></p>
@@ -174,10 +173,7 @@
     function tossCoinFunction() {
       const randomVal = Math.random();
       const faceCoin = randomVal < 0.5 ? "Heads" : "Tails";
-      const imageUrl =
-        faceCoin === "Heads"
-          ? "https://media.geeksforgeeks.org/wp-content/uploads/20231016151817/heads.png"
-          : "https://media.geeksforgeeks.org/wp-content/uploads/20231016151806/tails.png";
+      const imageUrl = faceCoin === "Heads" ? "heads.png" : "tails.png";
 
       coinIcon.classList.add("flip");
       setTimeout(() => {
