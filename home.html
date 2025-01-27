@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
-    <title>✿ Access Key</title>
+    <title>✿ Skyblock Portfolio</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -12,75 +12,90 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
-            align-items: center;
+            flex-direction: column;
+            justify-content: flex-start; /* Align content from top */
             height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .content {
+            display: flex;
+            flex-wrap: wrap; /* Allow items to wrap to the next line */
+            justify-content: center; /* Center items horizontally */
+            gap: 10px; /* Vertical spacing between rows */
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            width: 100%;
         }
 
         .container {
             background-color: #2d333b;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 40px;
-            max-width: 400px;
-            width: 100%;
-            text-align: center;
+            padding: 20px;
+            width: calc(25% - 50px); /* 4 items per row, accounting for gap */
+            text-align: left;
+            transition: transform 0.3s ease;
+            margin-left: 1px; /* Custom left spacing */
+            margin-right: 1px; /* Custom right spacing */
         }
 
-        h1 {
+        .container:hover {
+            transform: scale(1.05);
+        }
+
+        .container:nth-child(4n) {
+            margin-right: 1px; /* Increase right margin for last item in each row */
+        }
+
+        h3 {
             color: #fff;
-            margin-bottom: 30px;
-            transition: .2s ease
-        }
-
-        label {
-            display: block;
             margin-bottom: 10px;
-            color: #fff;
         }
 
-        input[type="text"] {
-            width: calc(100% - 20px);
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #353d47;
-            background-color: #515c6b;
-            margin-bottom: 20px;
-            transition: border-color 0.3s ease;
-            color: #fff;
-        }
-
-        input[type="text"]::placeholder {
-            color: #6c7a8c;
-        }
-
-        input[type="text"]:focus {
-            outline: none;
-            border-color: #3498db;
-        }
-
-        button[type="submit"] {
-            background-color: #515c6b;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+        .activity {
+            background-color: #414954;
+            padding: 20px;
+            border-radius: 10px;
             cursor: pointer;
-            transition: .2s ease
+            color: #fff;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
         }
 
-        button[type="submit"]:hover {
-            transform: scale(1.2);
+        .activity:hover {
+            background-color: #515c6b;
         }
 
-        #result {
-            margin-top: 20px;
-            color: #e74c3c;
+        .activity p {
+            color: #bbb;
+            margin-top: 10px;
+        }
+
+        .thumbnail {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        .description {
+            color: #bbb;
+            margin-top: 10px;
+        }
+
+        /* Pin buttons to the bottom of the screen */
+        .btn-corner,
+        .btn-flower,
+        .btn-coinflip {
+            position: fixed;
+            bottom: 20px;
+            z-index: 10;
         }
 
         .btn-corner {
-            position: absolute;
-            bottom: 20px;
             right: 20px;
             width: 50px;
             height: 50px;
@@ -90,7 +105,6 @@
             border-radius: 5px;
             cursor: pointer;
             overflow: hidden;
-            transition: .2s ease
         }
 
         .btn-corner img {
@@ -98,13 +112,7 @@
             height: auto;
         }
 
-        .btn-corner:hover {
-            transform: scale(1.25);
-        }
-
         .btn-flower {
-            position: absolute;
-            bottom: 20px;
             right: 80px;
             width: 50px;
             height: 50px;
@@ -114,7 +122,6 @@
             border-radius: 5px;
             cursor: pointer;
             overflow: hidden;
-            transition: .2s ease
         }
 
         .btn-flower::after {
@@ -126,26 +133,7 @@
             line-height: 50px;
         }
 
-        .btn-flower:hover {
-            background-color: #15c6b;
-            transform: scale(1.25);
-        }
-
-
-        .active {
-            background-color: #414954;
-        }
-
-        .gif-background {
-            background-image: none;
-            background-size: auto;
-            backdrop-filter: none;
-            transition: background-image 0.5s ease, backdrop-filter 0.5s ease;
-        }
-        
-                .btn-coinflip {
-            position: absolute;
-            bottom: 20px;
+        .btn-coinflip {
             left: 20px;
             width: 50px;
             height: 50px;
@@ -155,80 +143,109 @@
             border-radius: 5px;
             cursor: pointer;
             overflow: hidden;
-            transition: .2s ease;
             font-size: 24px;
         }
 
         .btn-coinflip:hover {
             transform: scale(1.25);
         }
+
+        /* Hover effect for buttons */
+        .btn-corner:hover,
+        .btn-flower:hover,
+        .btn-coinflip:hover {
+            transform: scale(1.25);
+        }
     </style>
 </head>
 <body>
-<div class="container">
-    <h1>Skyblock Portfolio</h1>
-    <form id="accessKeyForm">
-        <label for="accessKey">Welcome trader! Enter Your Access Key to continue:</label>
-        <input type="text" id="accessKey" name="accessKey" autocomplete="off" placeholder="Type your access Key">
-        <button type="submit">Submit</button>
-    </form>
-    <div id="result"></div>
-</div>
 
-<button class="btn-corner"><img src="https://cdn.freebiesupply.com/logos/large/2x/discord-logo-black-and-white.png" alt="discord"></button>
+    <!-- Content Container for Scrollable Content -->
+    <div class="content">
 
-<button class="btn-flower" id="flowerButton"></button>
+        <!-- Net Worth Calculator Container -->
+        <div class="container">
+            <div class="activity" id="networthCalculator">
+                <h3>Level to net worth calculator</h3>
+                <img src="https://wallpapers.com/images/hd/1920x1080-aesthetic-glrfk0ntspz3tvxg.jpg" alt="Thumbnail" class="thumbnail">
+                <p class="description">Wondering what your networth should be at your level? Well now you can calculate it!</p>
+            </div>
+        </div>
 
-<button class="btn-coinflip" id="coinflipButton">🎰</button>
+        <!-- Investment Tracker Container -->
+        <div class="container">
+            <div class="activity" id="investmentCalculator">
+                <h3>[WIP] Bazaar Investment Tracker</h3>
+                <img src="https://wallpapers.com/images/hd/1920x1080-aesthetic-glrfk0ntspz3tvxg.jpg" alt="Thumbnail" class="thumbnail">
+                <p class="description">A simple UI driven spreadsheet for keeping track of bazaar investments!</p>
+            </div>
+        </div>
+        <!-- Net Worth Calculator Container -->
+        <div class="container">
+            <div class="activity" id="networthCalculator">
+                <h3>???</h3>
+                <img src="https://wallpapers.com/images/hd/1920x1080-aesthetic-glrfk0ntspz3tvxg.jpg" alt="Thumbnail" class="thumbnail">
+                <p class="description">COMING SOON!</p>
+            </div>
+        </div>
 
-<script>
-    document.getElementById("accessKeyForm").addEventListener("submit", function (event) {
-        event.preventDefault();
-        const inputKey = document.getElementById("accessKey").value;
-        console.log("Input Key:", inputKey);
-        const redirectURL = "user/" + inputKey;
-        console.log("Redirect URL:", redirectURL);
-        window.location.href = redirectURL;
-    });
-    
+
+    </div>
+
+    <!-- Discord and Coinflip buttons -->
+    <button class="btn-corner"><img src="https://cdn.freebiesupply.com/logos/large/2x/discord-logo-black-and-white.png" alt="discord"></button>
+    <button class="btn-flower" id="flowerButton"></button>
+    <button class="btn-coinflip" id="coinflipButton">🎰</button>
+
+    <script>
+        // Coinflip Button Logic
         document.getElementById("coinflipButton").addEventListener("click", function () {
-        window.location.href = "coinflip";
-    });
+            window.location.href = "coinflip";
+        });
 
-    let isBackgroundToggled = localStorage.getItem("isBackgroundToggled") === "true";
-    const flowerButton = document.getElementById("flowerButton");
-    if (isBackgroundToggled) {
-        flowerButton.classList.add("active");
-        toggleBackground(true);
-    }
+        // Activity Button Redirects
+        document.getElementById("networthCalculator").addEventListener("click", function () {
+            window.location.href = "networth-calculator"; // Redirect to net worth calculator page
+        });
 
-    flowerButton.addEventListener("click", function () {
-        isBackgroundToggled = !isBackgroundToggled;
-        flowerButton.classList.toggle("active");
-        toggleBackground(isBackgroundToggled);
-        localStorage.setItem("isBackgroundToggled", isBackgroundToggled);
-    });
+        document.getElementById("investmentCalculator").addEventListener("click", function () {
+            window.location.href = "investment-calculator"; // Redirect to investment calculator page
+        });
 
-
-    function toggleBackground(toggle) {
-        const body = document.body;
-        if (toggle) {
-            body.classList.add("gif-background");
-            const gifImage = new Image();
-            gifImage.src = "background.gif";
-            gifImage.onload = function() {
-                body.style.backgroundImage = "url('" + gifImage.src + "')";
-            };
-            body.style.backgroundSize = "cover";
-            body.style.backdropFilter = "blur(10px)";
-        } else {
-            body.classList.remove("gif-background");
-            body.style.backgroundImage = "none";
-            body.style.backgroundSize = "auto";
-            body.style.backdropFilter = "none";
+        // Flower button background toggle logic
+        let isBackgroundToggled = localStorage.getItem("isBackgroundToggled") === "true";
+        const flowerButton = document.getElementById("flowerButton");
+        if (isBackgroundToggled) {
+            flowerButton.classList.add("active");
+            toggleBackground(true);
         }
-    }
-</script>
+
+        flowerButton.addEventListener("click", function () {
+            isBackgroundToggled = !isBackgroundToggled;
+            flowerButton.classList.toggle("active");
+            toggleBackground(isBackgroundToggled);
+            localStorage.setItem("isBackgroundToggled", isBackgroundToggled);
+        });
+
+        function toggleBackground(toggle) {
+            const body = document.body;
+            if (toggle) {
+                body.classList.add("gif-background");
+                const gifImage = new Image();
+                gifImage.src = "background.gif";
+                gifImage.onload = function() {
+                    body.style.backgroundImage = "url('" + gifImage.src + "')"; 
+                };
+                body.style.backgroundSize = "cover";
+                body.style.backdropFilter = "blur(10px)";
+            } else {
+                body.classList.remove("gif-background");
+                body.style.backgroundImage = "none";
+                body.style.backgroundSize = "auto";
+                body.style.backdropFilter = "none";
+            }
+        }
+    </script>
 
 </body>
 </html>
