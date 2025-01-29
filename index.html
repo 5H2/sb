@@ -6,24 +6,82 @@
     <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico">
     <title>✿ Skyblock Seniors</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #22272e;
+            background-color: #171a1f;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
             height: 100vh;
-            margin: 0;
             font-family: 'Arial', sans-serif;
             color: #ffffff;
+            text-align: center;
         }
 
         h1 {
             font-size: 3rem;
             margin-bottom: 30px;
-            text-align: center;
             color: #f1f1f1;
             font-family: 'Verdana', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .card {
+            --bg-color: #22272e;
+            background-color: var(--bg-color);
+            padding: 1.5rem 2.5rem;
+            border-radius: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .loader {
+            color: rgb(124, 124, 124);
+            font-family: "Poppins", sans-serif;
+            font-weight: 500;
+            font-size: 25px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .words {
+            height: 30px;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .word {
+            height: 30px;
+            line-height: 30px;
+            color: #4CAF50;
+            animation: spin_4991 5s infinite;
+            text-align: left;
+        }
+
+        @keyframes spin_4991 {
+            0%, 20% { transform: translateY(0%); }
+            25%, 45% { transform: translateY(-100%); }
+            50%, 70% { transform: translateY(-200%); }
+            75%, 95% { transform: translateY(-300%); }
+            100% { transform: translateY(-400%); }
         }
 
         button {
@@ -36,6 +94,7 @@
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             transition: background-color 0.3s, transform 0.2s;
+            display: none; /* Initially hidden */
         }
 
         button:hover {
@@ -47,16 +106,37 @@
             transform: translateY(1px);
         }
     </style>
-</head>
-<body>
-
-    <h1>Welcome to Skyblock Seniors</h1>
-    <button onclick="redirectToPage()">Enter</button>
-
     <script>
+        setTimeout(() => {
+            document.querySelector('.card').style.display = 'none';
+            document.querySelector('.enter-button').style.display = 'block';
+        }, 3000);
+
         function redirectToPage() {
             window.location.href = 'https://skyblockseniors.com/home';
         }
     </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Welcome to Skyblock Seniors</h1>
+
+        <div class="card">
+            <div class="loader">
+                <p>loading</p>
+                <div class="words">
+                    <span class="word">skyblock</span>
+                    <span class="word">bazaar</span>
+                    <span class="word">users</span>
+                    <span class="word">:3</span>
+                    <span class="word">updates</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="enter-button" onclick="redirectToPage()">Enter</button>
+    </div>
+
 </body>
 </html>
